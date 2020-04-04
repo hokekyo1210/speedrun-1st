@@ -22,10 +22,9 @@ services:
             - 8080:8080
         depends_on: 
             - 'postgres'
-        # command: ["sh", "-c", "cd /go/src/cmd && go run main.go"]
-        command: ["/bin/sh", "-c", "while :; do sleep 10; done"]
+        command: ["sh", "-c", "cd /go/speedrun-1st/src/cmd && go run main.go"]
         volumes:
-            - .:/go/src/
+            - .:/go/speedrun-1st/src
         environment:
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "postgres"
