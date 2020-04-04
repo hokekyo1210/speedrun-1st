@@ -53,6 +53,11 @@ func main() {
 		r.Post("/", insertGame(db))
 	})
 
+	// categories
+	router.Route("/v1/categories", func(r chi.Router) {
+		r.Post("/", insertCategory(db))
+	})
+
 	if err := http.ListenAndServe(":8080", router); err != nil {
 		log.Fatal("ListenAndServe failed.", err)
 	}
@@ -63,6 +68,19 @@ type Game struct {
 	GameID          string `json:"game_id"`
 	GameTitle       string `json:"game_title"`
 	ActivePlayerNum int    `json:"active_player_num"`
+}
+
+// Category :
+type Category struct {
+	CategoryID      string `json:"category_id"`
+	GameID          string `json:"game_id"`
+	CategoryName    string `json:"category_name"`
+	SubcategoryName string `json:"subcategory_name"`
+	CategoryURL     string `json:"category_url"`
+	BestPlayerName  string `json:"best_player_name"`
+	BestTime        string `json:"best_time"`
+	BestDate        string `json:"best_date"`
+	BestVideoLink   string `json:"best_video_link"`
 }
 
 func insertGame(db *sql.DB) http.HandlerFunc {
@@ -79,6 +97,23 @@ func insertGame(db *sql.DB) http.HandlerFunc {
 		}
 		// res := getGameIDByGameTitle(game.GameTitle, db, w)
 		defer Response(game, w)
+	}
+}
+
+func insertCategory(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		//リクエストを受け取る
+		var category Category
+		json.NewDecoder(r.Body).Decode(&category)
+
+		// Categoriesテーブルに新規レコードを追加
+		_, err := db.Exec(`INSERT INTO categories VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`, category.CategoryID, category.GameID, category.CategoryName, category.SubcategoryName, category.CategoryURL, category.BestPlayerName, category.BestTime, category.BestDate, category.BestVideoLink)
+		if err != nil {
+			fmt.Fprintf(w, "%s\n", "category_id already exists.")
+			panic(err.Error())
+		}
+		// res := getGameIDByGameTitle(game.GameTitle, db, w)
+		defer Response(category, w)
 	}
 }
 
