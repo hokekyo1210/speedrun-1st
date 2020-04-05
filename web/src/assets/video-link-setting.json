@@ -1,0 +1,12 @@
+{
+  "linkParm": [
+    {
+      "host": "youtube",
+      "parm": "v"
+    },
+    {
+      "host": "twitch",
+      "parm": "video"
+    }
+  ]
+}

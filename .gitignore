@@ -1,1 +1,14 @@
 github.com/
+
+## Web
+# compiled output
+/web/dist
+/web/tmp
+/web/out-tsc
+# Only exists if Bazel was run
+/web/bazel-out
+# dependencies
+/web/node_modules
+# profiling files
+web/chrome-profiler-events*.json
+web/speed-measure-plugin*.json

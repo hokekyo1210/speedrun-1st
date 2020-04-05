@@ -1,0 +1,17 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <!-- <div mat-card-avatar class="example-header-image"></div> -->
+    <mat-card-title>{{title}}</mat-card-title>
+    <mat-card-subtitle>{{subTitle}}</mat-card-subtitle>
+  </mat-card-header>
+  <youtube-player videoId={{videoId}} height={{height()}} width = {{width()}}></youtube-player>
+  <mat-card-content>
+    <p>
+      {{description}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>LIKE</button>
+    <button mat-button>SHARE</button>
+  </mat-card-actions>
+</mat-card>

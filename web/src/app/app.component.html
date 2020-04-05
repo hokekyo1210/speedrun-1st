@@ -1,0 +1,26 @@
+<tool-bar (openSideMenuEvent)="sideMenu.toggle()">Loading</tool-bar>
+
+<mat-sidenav-container class="container">
+  <!-- サイドメニュー -->
+  <mat-sidenav #sideMenu mode="side-menu">
+    <button mat-button>
+      <mat-icon>home</mat-icon>Home
+    </button>
+    <button mat-button>
+      <mat-icon>trending_up</mat-icon>
+      <span>Trend</span>
+    </button>
+  </mat-sidenav>
+
+  <!-- メインコンテンツ -->
+  <mat-sidenav-content class="center">
+    <div layout="row" layout-align="center">
+      <h1>{{title}}</h1>
+      <div class="container" fxLayout="row" fxLayout="row wrap" fxLayoutAlign="center">
+        <ng-container *ngFor="let item of videos">
+          <app-video [videoId]=item></app-video>
+        </ng-container>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
