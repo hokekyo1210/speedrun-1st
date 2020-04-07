@@ -2,3 +2,5 @@ github.com/go-chi/chi
 github.com/lib/pq
 github.com/go-chi/chi/middleware
 github.com/go-chi/cors
+github.com/cheggaaa/pb
+github.com/speps/go-hashids
