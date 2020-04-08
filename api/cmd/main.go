@@ -62,6 +62,11 @@ func main() {
 		r.Post("/", insertCategory(db))
 	})
 
+	// records
+	router.Route("/v1/records", func(r chi.Router) {
+		r.Get("/", fetchCategories(db))
+	})
+
 	// players
 	router.Route("/v1/players", func(r chi.Router) {
 		r.Post("/", insertPlayer(db))
@@ -106,6 +111,21 @@ type Player struct {
 	Twitter       string `json:"twitter"`
 	Speedrunslive string `json:"speedrunslive"`
 	IsGuest       bool   `json:"is_guest"`
+}
+
+// FetchedCategory :
+type FetchedCategory struct {
+	CategoryID        string   `json:"category_id"`
+	PrimaryCategoryID string   `json:"primary_category_id"`
+	Game              Game     `json:"game"`
+	CategoryName      string   `json:"category_name"`
+	SubcategoryName   string   `json:"subcategory_name"`
+	BestPlayers       []Player `json:"best_players"`
+	BestTime          string   `json:"best_time"`
+	BestDate          string   `json:"best_date"`
+	BestVideoLink     string   `json:"best_video_link"`
+	BestComment       string   `json:"best_comment"`
+	LastUpdated       string   `json:"last_updated"`
 }
 
 func insertGame(db *sql.DB) http.HandlerFunc {
@@ -176,6 +196,29 @@ func insertCategory(db *sql.DB) http.HandlerFunc {
 		updateGameLastUpdated(category.GameID, db)
 		// res := getGameIDByGameTitle(game.GameTitle, db, w)
 		defer Response(category, w)
+	}
+}
+
+func fetchCategories(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		offset, err := strconv.Atoi(r.FormValue("offset"))
+		if err != nil {
+			fmt.Fprintf(w, "offset must be int!")
+			return
+		}
+		size, err := strconv.Atoi(r.FormValue("size"))
+		if err != nil {
+			fmt.Fprintf(w, "size must be int!")
+			return
+		}
+
+		fetchedCategories, err := getCategoriesOrderByBestDate(size, offset, db, w)
+		if err != nil {
+			fmt.Fprintf(w, "SQL Error!")
+			fmt.Println(err)
+			panic(err.Error)
+		}
+		defer Response(fetchedCategories, w)
 	}
 }
 
@@ -289,6 +332,86 @@ func getOldestGame(db *sql.DB, w http.ResponseWriter) (*Game, error) {
 		return nil, err
 	}
 	return &game, nil
+}
+
+func getGameByGameID(gameID string, db *sql.DB) (*Game, error) {
+	queryStr := fmt.Sprintf("SELECT * FROM games WHERE game_id = '%s'", gameID)
+	query := db.QueryRow(queryStr)
+	var game Game
+	err := query.Scan(&game.GameID, &game.GameTitle, &game.ActivePlayerNum, &game.LastUpdated)
+	if err != nil {
+		return nil, err
+	}
+	return &game, nil
+}
+
+func getPlayerByPlayerID(playerID string, db *sql.DB) (*Player, error) {
+	queryStr := fmt.Sprintf("SELECT * FROM players WHERE player_id = '%s'", playerID)
+	query := db.QueryRow(queryStr)
+	var player Player
+	err := query.Scan(&player.PlayerID,
+		&player.PlayerName,
+		&player.CountryName,
+		&player.Twitch,
+		&player.Hitbox,
+		&player.Youtube,
+		&player.Twitter,
+		&player.Speedrunslive,
+		&player.IsGuest)
+	if err != nil {
+		return nil, err
+	}
+	return &player, nil
+}
+
+func getCategoriesOrderByBestDate(size int, offset int, db *sql.DB, w http.ResponseWriter) ([]FetchedCategory, error) {
+	queryStr := fmt.Sprintf("SELECT * FROM categories ORDER BY best_date DESC OFFSET %d LIMIT %d", offset, size)
+	rows, err := db.Query(queryStr)
+	if err != nil {
+		return nil, err
+	}
+	ret := []FetchedCategory{}
+	for rows.Next() {
+		fc := FetchedCategory{}
+		gameID := ""
+		bestPlayersID := []string{}
+		err := rows.Scan(&fc.CategoryID,
+			&fc.PrimaryCategoryID,
+			&gameID,
+			&fc.CategoryName,
+			&fc.SubcategoryName,
+			pq.Array(&bestPlayersID),
+			&fc.BestTime,
+			&fc.BestDate,
+			&fc.BestVideoLink,
+			&fc.BestComment,
+			&fc.LastUpdated)
+		if err != nil {
+			// panic(err.Error)
+			return nil, err
+		}
+
+		game, err := getGameByGameID(gameID, db)
+		if err != nil {
+			// panic(err.Error)
+			return nil, err
+		}
+
+		bestPlayers := []Player{}
+		for _, playerID := range bestPlayersID {
+			player, err := getPlayerByPlayerID(playerID, db)
+			if err != nil {
+				// panic(err.Error)
+				return nil, err
+			}
+			bestPlayers = append(bestPlayers, *player)
+		}
+		fc.Game = *game
+		fc.BestPlayers = bestPlayers
+		ret = append(ret, fc)
+	}
+
+	return ret, nil
 }
 
 // Response : 構造体resの内容をjsonにしてレスポンス
