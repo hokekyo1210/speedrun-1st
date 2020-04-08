@@ -6,4 +6,8 @@ RUN go get -u github.com/lib/pq
 RUN go get -u github.com/go-chi/chi/middleware
 RUN go get -u github.com/go-chi/cors
 
+COPY ./ /go/speedrun-1st/src
+
+CMD ["sh", "-c", "cd /go/speedrun-1st/src/cmd && go run main.go"]
+
 EXPOSE 8080

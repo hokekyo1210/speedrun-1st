@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-staging-pod
+spec:
+  selector:
+    matchLabels:
+      app: api-staging-pod
+  template:
+    metadata:
+      labels:
+        app: api-staging-pod
+    spec:
+      containers:
+      - image: asia.gcr.io/lyrical-link-271413/speedrun1stapi:latest
+        name: api-staging-pod
+        ports:
+          - containerPort: 8080
+        env:
+        - name: POSTGRES_USER
+          value: "mahjong-api-0.0.1-SNAPSHOT.jar"
+        - name: POSTGRES_PASSWORD
+          value: "mahjong-api-0.0.1-SNAPSHOT.jar"
+        - name: POSTGRES_HOST
+          value: "mahjong-api-0.0.1-SNAPSHOT.jar"
+        - name: POSTGRES_DATABASE
+          value: "mahjong-api-0.0.1-SNAPSHOT.jar"
+        - name: TZ
+          value: "Asia/Tokyo"
