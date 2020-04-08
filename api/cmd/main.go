@@ -227,6 +227,8 @@ func getOldestGameAPI(db *sql.DB) http.HandlerFunc {
 			fmt.Fprintf(w, "%s\n", "game_id does not exists.")
 			return
 		}
+		//gamesテーブルのlast_updatedを更新する
+		updateGameLastUpdated(oldestGame.GameID, db)
 		defer Response(*oldestGame, w)
 	}
 }
