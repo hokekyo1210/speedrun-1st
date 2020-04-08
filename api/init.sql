@@ -8,6 +8,8 @@ CREATE TABLE games (
     PRIMARY KEY (game_id)
 );
 
+CREATE INDEX games_last_updated_idx ON games (last_updated);
+
 DROP TABLE IF EXISTS categories;
 
 CREATE TABLE categories (
@@ -24,6 +26,10 @@ CREATE TABLE categories (
     last_updated        TIMESTAMP   NOT NULL,
     PRIMARY KEY (category_id)
 );
+
+CREATE INDEX categories_best_date_idx ON categories (best_date);
+CREATE INDEX categories_best_time_idx ON categories (best_time);
+CREATE INDEX categories_game_id_idx ON categories (game_id);
 
 DROP TABLE IF EXISTS players;
 
