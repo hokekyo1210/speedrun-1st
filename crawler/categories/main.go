@@ -422,7 +422,8 @@ func insertRunResultToCategoryDB(runResult RunResult, categoryName string, subca
 	// fmt.Println(jsonStr)
 	// return nil, nil
 
-	url := "http://192.168.99.100:8080/v1/categories"
+	API_HOST := os.Getenv("API_HOST")
+	url := API_HOST + "/v1/categories"
 	res, err := httpPost(url, jsonStr)
 	if err != nil {
 		return nil, err
@@ -441,7 +442,8 @@ func insertRunResultToPlayerDB(runResult RunResult, playerList []Player) ([]stri
 		jsonStr := string(jsonBytes)
 		// fmt.Println(jsonStr)
 
-		url := "http://192.168.99.100:8080/v1/players"
+		API_HOST := os.Getenv("API_HOST")
+		url := API_HOST + "/v1/players"
 		res, err := httpPost(url, jsonStr)
 		if err != nil {
 			return nil, err
