@@ -171,30 +171,44 @@ func insertCategory(db *sql.DB) http.HandlerFunc {
 		} else {
 			categoryID = getCategoryIDByPrimaryCategoryAndSubCategory(category.PrimaryCategoryID, category.SubcategoryName, db)
 		}
+		var err error
 		if categoryID != nil {
-			fmt.Fprintf(w, "%s\n", "category_id already exists.")
-			return
+			// category_idが既にDBに存在するのでupdateをかける
+			currentTime := time.Now()
+			_, err = db.Exec(`UPDATE categories SET primary_category_id = $1, game_id = $2, category_name = $3, subcategory_name = $4, best_players_id = $5, best_time = $6, best_date = $7, best_video_link = $8, best_comment = $9, best_verify_date = $10, last_updated = $11 WHERE category_id = $12`,
+				category.PrimaryCategoryID,
+				category.GameID,
+				category.CategoryName,
+				category.SubcategoryName,
+				pq.Array(category.BestPlayersID),
+				category.BestTime,
+				category.BestDate,
+				category.BestVideoLink,
+				category.BestComment,
+				category.BestVerifyDate,
+				currentTime,
+				categoryID)
+		} else {
+			// Categoriesテーブルに新規レコードを追加
+			currentTime := time.Now()
+			_, err = db.Exec(`INSERT INTO categories(primary_category_id, game_id, category_name, subcategory_name, best_players_id, best_time, best_date, best_video_link, best_comment, best_verify_date, last_updated) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+				category.PrimaryCategoryID,
+				category.GameID,
+				category.CategoryName,
+				category.SubcategoryName,
+				pq.Array(category.BestPlayersID),
+				category.BestTime,
+				category.BestDate,
+				category.BestVideoLink,
+				category.BestComment,
+				category.BestVerifyDate,
+				currentTime)
 		}
-
-		currentTime := time.Now()
-		// Categoriesテーブルに新規レコードを追加
-		_, err := db.Exec(`INSERT INTO categories(primary_category_id, game_id, category_name, subcategory_name, best_players_id, best_time, best_date, best_video_link, best_comment, best_verify_date, last_updated) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-			category.PrimaryCategoryID,
-			category.GameID,
-			category.CategoryName,
-			category.SubcategoryName,
-			pq.Array(category.BestPlayersID),
-			category.BestTime,
-			category.BestDate,
-			category.BestVideoLink,
-			category.BestComment,
-			category.BestVerifyDate,
-			currentTime)
-
 		if err != nil {
 			fmt.Println(err)
 			panic(err.Error())
 		}
+
 		//gamesテーブルのlast_updatedを更新する
 		updateGameLastUpdated(category.GameID, db)
 		// res := getGameIDByGameTitle(game.GameTitle, db, w)
