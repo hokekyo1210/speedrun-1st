@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>{{record.game.gameTitle}}</h2>
+<mat-dialog-content>
+    <div [ngSwitch]="this.getVideoHost()">
+      <div *ngSwitchCase="'Youtube'">
+        <youtube-player videoId={{this.getVideoId()}} width="100%"></youtube-player>
+      </div>
+      <div *ngSwitchCase="'Twitch'">
+        <twitch-player src={{this.getVideoId()}} width="100%"></twitch-player>
+      </div>
+      <div *ngSwitchDefault>
+        {{this.record.bestVideoLink}}
+      </div>
+    </div>
+
+    <div *ngIf="this.getVideoHost() == 'Youtube'">
+    <!-- YouTube -->
+
+    </div>
+    <!-- Twitch -->
+    <div *ngIf="this.getVideoHost() == 'Twitch'">
+    </div>
+</mat-dialog-content>
+<p>
+  <ng-container *ngFor="let player of this.record.bestPlayers">
+    {{player.playerName}}
+  </ng-container>
+</p>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Close</button>
+</mat-dialog-actions>

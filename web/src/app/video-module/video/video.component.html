@@ -1,17 +1,16 @@
-<mat-card class="example-card">
+<mat-card class="card" (click)="openVideo()">
   <mat-card-header>
-    <!-- <div mat-card-avatar class="example-header-image"></div> -->
-    <mat-card-title>{{title}}</mat-card-title>
-    <mat-card-subtitle>{{subTitle}}</mat-card-subtitle>
+    <mat-card-title class="title" matTooltip={{record.game.gameTitle}}>{{record.game.gameTitle}}</mat-card-title>
+    <mat-card-subtitle class="sub-title" matTooltip={{record.categoryName}}>{{record.categoryName}}</mat-card-subtitle>
   </mat-card-header>
-  <youtube-player videoId={{videoId}} height={{height()}} width = {{width()}}></youtube-player>
+
+  <img mat-card-image
+    src={{getThumbnailUrl()}}
+    onerror="this.src='https://3.bp.blogspot.com/-BTScko60ueE/XLAdppll-XI/AAAAAAABSaQ/BLwBgeXsXAcoZEZjeGL15CzMhSgrtue6gCLcBGAs/s800/video_frame_169.png'"
+    matTooltip={{record.bestVideoLink}}
+    >
+
   <mat-card-content>
-    <p>
-      {{description}}
-    </p>
+    Time: {{this.record.bestTime | timer}}
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-button>SHARE</button>
-  </mat-card-actions>
 </mat-card>
