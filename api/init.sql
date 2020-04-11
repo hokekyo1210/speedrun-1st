@@ -47,3 +47,11 @@ CREATE TABLE players (
     is_guest        BOOLEAN     DEFAULT FALSE,
     PRIMARY KEY (player_id)
 );
+
+DROP TABLE IF EXISTS runs;
+
+CREATE TABLE runs (
+    run_id         CHAR(8)      NOT NULL,
+    verify_date      TIMESTAMP     NOT NULL,
+    PRIMARY KEY (run_id)
+);

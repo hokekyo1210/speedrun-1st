@@ -55,6 +55,9 @@ func main() {
 	router.Route("/v1/games", func(r chi.Router) {
 		r.Post("/", insertGame(db))
 		r.Get("/oldest", getOldestGameAPI(db))
+		r.Route("/{game_id}", func(r chi.Router) {
+			r.Put("/last_updated", putGamesLastUpdatedAPI(db))
+		})
 	})
 
 	// categories
@@ -70,6 +73,11 @@ func main() {
 	// players
 	router.Route("/v1/players", func(r chi.Router) {
 		r.Post("/", insertPlayer(db))
+	})
+
+	// runs
+	router.Route("/v1/runs", func(r chi.Router) {
+		r.Post("/", insertRunAPI(db))
 	})
 
 	if err := http.ListenAndServe(":8080", router); err != nil {
@@ -114,6 +122,12 @@ type Player struct {
 	IsGuest       bool   `json:"is_guest"`
 }
 
+// Run :
+type Run struct {
+	RunID      string `json:"run_id"`
+	VerifyDate string `json:"verify_date"`
+}
+
 // FetchedCategory :
 type FetchedCategory struct {
 	CategoryID        string   `json:"category_id"`
@@ -151,6 +165,38 @@ func insertGame(db *sql.DB) http.HandlerFunc {
 		}
 		// res := getGameIDByGameTitle(game.GameTitle, db, w)
 		defer Response(game, w)
+	}
+}
+
+func putGamesLastUpdatedAPI(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		//リクエストを受け取る
+		gameID := chi.URLParam(r, "game_id")
+		if gameID == "" {
+			fmt.Fprintf(w, "%s\n", "illegal game_id!")
+			return
+		}
+		var game Game
+		json.NewDecoder(r.Body).Decode(&game)
+		if game.LastUpdated == "" {
+			fmt.Fprintf(w, "%s\n", "illegal json!")
+			return
+		}
+
+		retGame, err := getGameByGameID(gameID, db)
+		if err != nil {
+			fmt.Fprintf(w, "%s\n", "game_id does not exist!")
+			return
+		}
+
+		// Gameテーブルのlast_updatedを変更
+		_, err = db.Exec(`UPDATE games SET last_updated = $1 WHERE game_id = $2`, game.LastUpdated, gameID)
+		if err != nil {
+			fmt.Fprintf(w, "%s\n", "illegal timestamp!")
+			panic(err.Error())
+		}
+		retGame.LastUpdated = game.LastUpdated
+		defer Response(*retGame, w)
 	}
 }
 
@@ -267,6 +313,31 @@ func insertPlayer(db *sql.DB) http.HandlerFunc {
 			// panic(err.Error())
 		}
 		defer Response(player, w)
+	}
+}
+
+func insertRunAPI(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		//リクエストを受け取る
+		var run Run
+		json.NewDecoder(r.Body).Decode(&run)
+		if run.RunID == "" || run.VerifyDate == "" {
+			fmt.Fprintf(w, "%s\n", "illegal json!")
+			return
+		}
+
+		// playersテーブルに新規レコードを追加
+		_, err := db.Exec(`INSERT INTO runs VALUES($1, $2)`,
+			run.RunID,
+			run.VerifyDate)
+
+		if err != nil {
+			fmt.Println(err)
+			fmt.Fprintf(w, "%s\n", "run_id already exists!")
+			return
+			// panic(err.Error())
+		}
+		defer Response(run, w)
 	}
 }
 
