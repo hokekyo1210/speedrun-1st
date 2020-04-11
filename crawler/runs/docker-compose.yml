@@ -1,0 +1,17 @@
+version: '3'
+services:
+    go-crawler-runs:
+        image: golang:1.12-alpine3.9
+        container_name: go-crawler-runs
+        command: ["sh", "-c", "cd /go/speedrun-1st/src/ && while :; do sleep 3; go run main.go; done"]
+        # command: ["sh", "-c", "while :; do sleep 60; done"]
+        volumes:
+            - .:/go/speedrun-1st/src
+        environment:
+            API_HOST: "http://192.168.99.100:8080"
+            SLEEP_SECONDS: 60
+            SET_LAST_UPDATED: "2000-04-11T12:55:08Z"
+            PAGE_MAX: 20
+            HOST: "0.0.0.0"
+            TZ: Asia/Tokyo
+            ENV: "develop"
