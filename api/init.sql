@@ -23,6 +23,7 @@ CREATE TABLE categories (
     best_date           TIMESTAMP   NOT NULL,
     best_video_link     TEXT        NOT NULL,
     best_comment        TEXT                ,
+    best_verify_date    TIMESTAMP           ,
     last_updated        TIMESTAMP   NOT NULL,
     PRIMARY KEY (category_id)
 );
@@ -30,6 +31,7 @@ CREATE TABLE categories (
 CREATE INDEX categories_best_date_idx ON categories (best_date);
 CREATE INDEX categories_best_time_idx ON categories (best_time);
 CREATE INDEX categories_game_id_idx ON categories (game_id);
+CREATE INDEX categories_best_verify_date_idx ON categories (best_verify_date);
 
 DROP TABLE IF EXISTS players;
 
