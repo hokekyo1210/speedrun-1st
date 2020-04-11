@@ -97,6 +97,7 @@ type Category struct {
 	BestDate          string   `json:"best_date"`
 	BestVideoLink     string   `json:"best_video_link"`
 	BestComment       string   `json:"best_comment"`
+	BestVerifyDate    string   `json:"best_verify_date"`
 	LastUpdated       string   `json:"last_updated"`
 }
 
@@ -125,6 +126,7 @@ type FetchedCategory struct {
 	BestDate          string   `json:"best_date"`
 	BestVideoLink     string   `json:"best_video_link"`
 	BestComment       string   `json:"best_comment"`
+	BestVerifyDate    string   `json:"best_verify_date"`
 	LastUpdated       string   `json:"last_updated"`
 }
 
@@ -176,7 +178,7 @@ func insertCategory(db *sql.DB) http.HandlerFunc {
 
 		currentTime := time.Now()
 		// Categoriesテーブルに新規レコードを追加
-		_, err := db.Exec(`INSERT INTO categories(primary_category_id, game_id, category_name, subcategory_name, best_players_id, best_time, best_date, best_video_link, best_comment, last_updated) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+		_, err := db.Exec(`INSERT INTO categories(primary_category_id, game_id, category_name, subcategory_name, best_players_id, best_time, best_date, best_video_link, best_comment, best_verify_date, last_updated) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
 			category.PrimaryCategoryID,
 			category.GameID,
 			category.CategoryName,
@@ -186,6 +188,7 @@ func insertCategory(db *sql.DB) http.HandlerFunc {
 			category.BestDate,
 			category.BestVideoLink,
 			category.BestComment,
+			category.BestVerifyDate,
 			currentTime)
 
 		if err != nil {
@@ -385,6 +388,7 @@ func getCategoriesOrderByBestDate(size int, offset int, db *sql.DB, w http.Respo
 			&fc.BestDate,
 			&fc.BestVideoLink,
 			&fc.BestComment,
+			&fc.BestVerifyDate,
 			&fc.LastUpdated)
 		if err != nil {
 			// panic(err.Error)
