@@ -378,6 +378,7 @@ func getCategoriesOrderByBestDate(size int, offset int, db *sql.DB, w http.Respo
 		fc := FetchedCategory{}
 		gameID := ""
 		bestPlayersID := []string{}
+		nullBestVerifyDate := new(sql.NullString)
 		err := rows.Scan(&fc.CategoryID,
 			&fc.PrimaryCategoryID,
 			&gameID,
@@ -389,10 +390,14 @@ func getCategoriesOrderByBestDate(size int, offset int, db *sql.DB, w http.Respo
 			&fc.BestVideoLink,
 			&fc.BestComment,
 			&fc.LastUpdated,
-			&fc.BestVerifyDate)
+			nullBestVerifyDate)
 		if err != nil {
+			// fmt.Println(err)
 			// panic(err.Error)
 			return nil, err
+		}
+		if nullBestVerifyDate.Valid {
+			fc.BestVerifyDate = nullBestVerifyDate.String
 		}
 
 		game, err := getGameByGameID(gameID, db)
