@@ -194,6 +194,7 @@ type Category struct {
 	BestDate          string   `json:"best_date"`
 	BestVideoLink     string   `json:"best_video_link"`
 	BestComment       string   `json:"best_comment"`
+	BestVerifyDate    string   `json:"best_verify_date"`
 	LastUpdated       string   `json:"last_updated"`
 }
 
@@ -401,6 +402,7 @@ func insertRunResultToCategoryDB(runResult RunResult, categoryName string, subca
 	bestDate := runResult.Data.Runs[0].Run.Submitted
 	bestComment := runResult.Data.Runs[0].Run.Comment
 	bestVideoLink := ""
+	bestVerifyDate := runResult.Data.Runs[0].Run.Status.VerifyDate
 	if len(runResult.Data.Runs[0].Run.Videos.Links) != 0 {
 		bestVideoLink = runResult.Data.Runs[0].Run.Videos.Links[0].URI
 	}
@@ -412,6 +414,7 @@ func insertRunResultToCategoryDB(runResult RunResult, categoryName string, subca
 		BestTime:        bestTime,
 		BestDate:        bestDate,
 		BestComment:     bestComment,
+		BestVerifyDate:  bestVerifyDate,
 		BestVideoLink:   bestVideoLink}
 	jsonBytes, err := json.Marshal(category)
 	if err != nil {
