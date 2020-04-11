@@ -1,37 +1,47 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-import { Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogVideo } from './dialog-video';
+
+import { Record } from './../../data/Record'
+import { VideoLinkService } from 'src/app/Service/VideoLinkService';
 
 @Component({
   templateUrl: 'video.component.html',
   selector: 'app-video',
-  styleUrls: ['video.component.scss']
+  styleUrls: ['video.component.scss'],
 })
 export class VideoComponent implements OnInit {
-  @Input() videoId: string;
+  @Input() record: Record;
 
-  @Input() title: string;
-  @Input() subTitle: string;
-  @Input() description: string;
+  constructor(
+    public dialog: MatDialog,
+    private videoLinkService: VideoLinkService
+  ) { }
 
-  private w: Number;
-  private h: Number;
+  ngOnInit() {}
 
-  constructor() {
-    this.w = 150;
-    this.h = 150;
+  /**
+   * Open Youtube Dialog
+   */
+  openVideo() {
+    const dialogRef = this.dialog.open(DialogVideo, {
+			height : '80%',
+      width : '100%',
+      data: this.record
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
   }
 
-  width(): Number {
-    return this.w;
-  }
-
-  height(): Number {
-    return this.h;
-  }
-
-  ngOnInit() {
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    document.body.appendChild(tag);
+  getThumbnailUrl() {
+    try {
+      const url = new URL(this.record.bestVideoLink);
+      return this.videoLinkService.getThumbnailUrl(url);
+    } catch (error) {
+      return "";
+    }
   }
 }
+
+

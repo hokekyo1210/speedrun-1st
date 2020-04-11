@@ -5,14 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 
 import { MatSidenavModule } from "@angular/material/sidenav";
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 
 import { MenuModule } from './menu/menu.module';
 
 import { VideoModule } from './video-module/video-module.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
+
+import { RequestService } from './Service/RequestService';
+import { HttpClientModule } from '@angular/common/http';
+import { VideoComponent } from './video-module/video/video.component';
 
 @NgModule({
   declarations: [
@@ -21,16 +23,20 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   imports: [
     BrowserModule,
     FormsModule,
-    VideoModule,
     BrowserAnimationsModule,
+
     FlexLayoutModule,
     MenuModule,
 
+    VideoModule,
+
     MatSidenavModule,
-    MatButtonModule,
-    MatIconModule,
+
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    { provide: RequestService, useClass: RequestService, multi: false }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

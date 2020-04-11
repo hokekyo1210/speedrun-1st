@@ -5,8 +5,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule }from '@angular/material/menu'
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { ToolBar } from './tool-bar/tool-bar';
+import { SideMenu } from './side-menu/side-menu';
 
 @NgModule({
   imports: [
@@ -14,10 +19,14 @@ import { ToolBar } from './tool-bar/tool-bar';
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatListModule,
+    MatDividerModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
-  declarations: [ToolBar],
-  exports: [ToolBar]
+  declarations: [ToolBar, SideMenu],
+  exports: [ToolBar, SideMenu]
 })
 export class MenuModule {}
 
