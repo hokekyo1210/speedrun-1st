@@ -388,8 +388,8 @@ func getCategoriesOrderByBestDate(size int, offset int, db *sql.DB, w http.Respo
 			&fc.BestDate,
 			&fc.BestVideoLink,
 			&fc.BestComment,
-			&fc.BestVerifyDate,
-			&fc.LastUpdated)
+			&fc.LastUpdated,
+			&fc.BestVerifyDate)
 		if err != nil {
 			// panic(err.Error)
 			return nil, err
