@@ -67,7 +67,10 @@ func main() {
 
 	// records
 	router.Route("/v1/records", func(r chi.Router) {
-		r.Get("/", fetchCategories(db))
+		r.Get("/", fetchCategoriesAPI(db))
+		r.Route("/{primary_category_id}", func(r chi.Router) {
+			r.Get("/", fetchCategoriesFromPrimaryCategoryIDAPI(db))
+		})
 	})
 
 	// players
@@ -262,7 +265,7 @@ func insertCategory(db *sql.DB) http.HandlerFunc {
 	}
 }
 
-func fetchCategories(db *sql.DB) http.HandlerFunc {
+func fetchCategoriesAPI(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		offset, err := strconv.Atoi(r.FormValue("offset"))
 		if err != nil {
@@ -278,7 +281,31 @@ func fetchCategories(db *sql.DB) http.HandlerFunc {
 		orderby := r.FormValue("orderby")
 		direction := r.FormValue("direction")
 
-		fetchedCategories, err := getCategories(orderby, direction, size, offset, db)
+		queryStr := ""
+		if orderby == "" {
+			queryStr = fmt.Sprintf("SELECT * FROM categories OFFSET %d LIMIT %d", offset, size)
+		} else {
+			if direction != "" && direction != "desc" && direction != "asc" {
+				direction = ""
+			}
+			queryStr = fmt.Sprintf("SELECT * FROM categories WHERE %s is not null ORDER BY %s %s OFFSET %d LIMIT %d", orderby, orderby, direction, offset, size)
+		}
+
+		fetchedCategories, err := getCategories(queryStr, db)
+		if err != nil {
+			fmt.Fprintf(w, "SQL Error!")
+			fmt.Println(err)
+			panic(err.Error)
+		}
+		defer Response(fetchedCategories, w)
+	}
+}
+
+func fetchCategoriesFromPrimaryCategoryIDAPI(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		primaryCategoryID := chi.URLParam(r, "primary_category_id")
+		queryStr := fmt.Sprintf("SELECT * FROM categories WHERE primary_category_id = '%s'", primaryCategoryID)
+		fetchedCategories, err := getCategories(queryStr, db)
 		if err != nil {
 			fmt.Fprintf(w, "SQL Error!")
 			fmt.Println(err)
@@ -455,16 +482,7 @@ func getPlayerByPlayerID(playerID string, db *sql.DB) (*Player, error) {
 	return &player, nil
 }
 
-func getCategories(orderby string, direction string, size int, offset int, db *sql.DB) ([]FetchedCategory, error) {
-	queryStr := ""
-	if orderby == "" {
-		queryStr = fmt.Sprintf("SELECT * FROM categories OFFSET %d LIMIT %d", offset, size)
-	} else {
-		if direction != "" && direction != "desc" && direction != "asc" {
-			direction = ""
-		}
-		queryStr = fmt.Sprintf("SELECT * FROM categories ORDER BY %s %s OFFSET %d LIMIT %d", orderby, direction, offset, size)
-	}
+func getCategories(queryStr string, db *sql.DB) ([]FetchedCategory, error) {
 
 	rows, err := db.Query(queryStr)
 	if err != nil {
