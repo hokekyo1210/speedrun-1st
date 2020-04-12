@@ -266,16 +266,19 @@ func fetchCategories(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		offset, err := strconv.Atoi(r.FormValue("offset"))
 		if err != nil {
-			fmt.Fprintf(w, "offset must be int!")
-			return
+			offset = 0
 		}
-		size, err := strconv.Atoi(r.FormValue("size"))
+		size, err := strconv.Atoi(r.FormValue("max"))
 		if err != nil {
-			fmt.Fprintf(w, "size must be int!")
-			return
+			size = 20
 		}
+		if size > 200 {
+			size = 200
+		}
+		orderby := r.FormValue("orderby")
+		direction := r.FormValue("direction")
 
-		fetchedCategories, err := getCategoriesOrderByBestDate(size, offset, db, w)
+		fetchedCategories, err := getCategories(orderby, direction, size, offset, db)
 		if err != nil {
 			fmt.Fprintf(w, "SQL Error!")
 			fmt.Println(err)
@@ -452,8 +455,17 @@ func getPlayerByPlayerID(playerID string, db *sql.DB) (*Player, error) {
 	return &player, nil
 }
 
-func getCategoriesOrderByBestDate(size int, offset int, db *sql.DB, w http.ResponseWriter) ([]FetchedCategory, error) {
-	queryStr := fmt.Sprintf("SELECT * FROM categories ORDER BY best_date DESC OFFSET %d LIMIT %d", offset, size)
+func getCategories(orderby string, direction string, size int, offset int, db *sql.DB) ([]FetchedCategory, error) {
+	queryStr := ""
+	if orderby == "" {
+		queryStr = fmt.Sprintf("SELECT * FROM categories OFFSET %d LIMIT %d", offset, size)
+	} else {
+		if direction != "" && direction != "desc" && direction != "asc" {
+			direction = ""
+		}
+		queryStr = fmt.Sprintf("SELECT * FROM categories ORDER BY %s %s OFFSET %d LIMIT %d", orderby, direction, offset, size)
+	}
+
 	rows, err := db.Query(queryStr)
 	if err != nil {
 		return nil, err
