@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogVideo } from './dialog-video';
+import { DialogVideo } from './dialog-video.component';
 
-import { Record } from './../../data/Record'
-import { VideoLinkService } from 'src/app/Service/VideoLinkService';
+import { Record } from '../../data/Record'
+import { VideoLinkService } from 'src/app/Service/video-link.service';
 
 @Component({
   templateUrl: 'video.component.html',

@@ -2,13 +2,13 @@ import { Component, Inject } from '@angular/core';
 import { OnInit, OnDestroy } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
-import { Record } from './../../data/Record'
-import { VideoLinkService } from 'src/app/Service/VideoLinkService';
+import { Record } from '../../data/Record'
+import { VideoLinkService } from 'src/app/Service/video-link.service';
 
 
 @Component({
   selector: 'dialog-video',
-  templateUrl: 'dialog-video.html'
+  templateUrl: 'dialog-video.component.html'
 })
 export class DialogVideo implements OnInit, OnDestroy {
 

@@ -5,9 +5,9 @@ import { BrowserModule } from "@angular/platform-browser";
 
 import { YouTubePlayerModule } from '@angular/youtube-player';
 
-import { VideoComponent } from './video/video.component';
-import { DialogVideo } from "./video/dialog-video";
-import { TwitchPlayer } from "./video/twitch-player.component";
+import { VideoComponent } from './video-card/video.component';
+import { DialogVideo } from "./video-card/dialog-video.component";
+import { TwitchPlayer } from "./video-card/twitch-player.component";
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,9 +15,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
 
-import { VideoLinkService } from "../Service/VideoLinkService";
+import { VideoLinkService } from "../Service/video-link.service";
 
 import { TimerPipe } from "../pipe/timer.pipe";
+import { VideoDetail } from './video-detail/video-detail.component';
+import { RequestRecordResolver } from '../Service/request-record-resolver.service';
 
 @NgModule({
   imports: [
@@ -34,9 +36,16 @@ import { TimerPipe } from "../pipe/timer.pipe";
     VideoComponent,
     DialogVideo,
     TwitchPlayer,
+    VideoDetail,
     TimerPipe
   ],
-  providers: [VideoLinkService],
-  exports: [VideoComponent]
+  providers: [
+    VideoLinkService,
+    RequestRecordResolver
+  ],
+  exports: [
+    VideoComponent,
+    VideoDetail,
+  ]
 })
 export class VideoModule {}

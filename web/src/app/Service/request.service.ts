@@ -30,22 +30,43 @@ export class RequestService {
 
   /**
    * RecordsのHTTP/GETメソッド
-   * @param size
+   * @param max
    * @param offset
    */
-  public getRecords(size: number, offset: number): Promise<Record[]> {
+  public getRecords(max: number, offset: number): Promise<Record[]> {
     return this.getRequest(
       "v1/records",
-      new Map([["size", size.toString()], ["offset", offset.toString()]]),
-      RecordConverter.toRecords
+      new Map([
+        ["max", max.toString()],
+        ["offset", offset.toString()],
+        ["orderby", "best_verify_date"],
+        ["direction", "desc"],
+      ]),
+      RecordConverter.toRecord
     );
   }
 
+  /**
+   * Recordの取得
+   * テスト実装
+   * @param categoryId
+   */
+  public getRecord(categoryId: string): Promise<Record>{
+    return this.getRequest(
+      "v1/records/" + categoryId,
+      null,
+      RecordConverter.toRecord
+    ).then(
+      e => e[0]
+    );
+  }
 
   private getRequest<T>(path: string, parm: Map<string, string>, toObject: (string) => T[] ): Promise<T[]> {
     const url = new URL(this.host);
     url.pathname = path;
-    parm.forEach( (v, k) => url.searchParams.set(k, v) );
+    if(parm != null) {
+      parm.forEach( (v, k) => url.searchParams.set(k, v) );
+    }
 
     return this.http.get(url.toString(), this.httpOptions)
       .toPromise()

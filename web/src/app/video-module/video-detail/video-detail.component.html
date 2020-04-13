@@ -1,0 +1,17 @@
+<h2>{{record.game.gameTitle}}</h2>
+
+<div>
+  <div [ngSwitch]="this.getVideoHost()">
+    <div *ngSwitchCase="'Youtube'">
+      <youtube-player videoId={{this.getVideoId()}}></youtube-player>
+    </div>
+    <div *ngSwitchCase="'Twitch'">
+      <twitch-player src={{this.getVideoId()}} width="100%"></twitch-player>
+    </div>
+    <div *ngSwitchDefault>
+      {{this.record.bestVideoLink}}
+    </div>
+  </div>
+</div>
+
+<button mat-button>Button da yo</button>

@@ -1,0 +1,15 @@
+.youtube-outer {
+  width: 100px;
+  padding-top: 0%;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.youtube-outer-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
