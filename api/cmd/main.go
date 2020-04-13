@@ -55,6 +55,9 @@ func main() {
 	router.Route("/v1/games", func(r chi.Router) {
 		r.Post("/", insertGame(db))
 		r.Get("/oldest", getOldestGameAPI(db))
+		r.Route("/{game_id}", func(r chi.Router) {
+			r.Put("/last_updated", putGamesLastUpdatedAPI(db))
+		})
 	})
 
 	// categories
@@ -64,12 +67,20 @@ func main() {
 
 	// records
 	router.Route("/v1/records", func(r chi.Router) {
-		r.Get("/", fetchCategories(db))
+		r.Get("/", fetchCategoriesAPI(db))
+		r.Route("/{primary_category_id}", func(r chi.Router) {
+			r.Get("/", fetchCategoriesFromPrimaryCategoryIDAPI(db))
+		})
 	})
 
 	// players
 	router.Route("/v1/players", func(r chi.Router) {
 		r.Post("/", insertPlayer(db))
+	})
+
+	// runs
+	router.Route("/v1/runs", func(r chi.Router) {
+		r.Post("/", insertRunAPI(db))
 	})
 
 	if err := http.ListenAndServe(":8080", router); err != nil {
@@ -97,6 +108,7 @@ type Category struct {
 	BestDate          string   `json:"best_date"`
 	BestVideoLink     string   `json:"best_video_link"`
 	BestComment       string   `json:"best_comment"`
+	BestVerifyDate    string   `json:"best_verify_date"`
 	LastUpdated       string   `json:"last_updated"`
 }
 
@@ -113,6 +125,12 @@ type Player struct {
 	IsGuest       bool   `json:"is_guest"`
 }
 
+// Run :
+type Run struct {
+	RunID      string `json:"run_id"`
+	VerifyDate string `json:"verify_date"`
+}
+
 // FetchedCategory :
 type FetchedCategory struct {
 	CategoryID        string   `json:"category_id"`
@@ -125,6 +143,7 @@ type FetchedCategory struct {
 	BestDate          string   `json:"best_date"`
 	BestVideoLink     string   `json:"best_video_link"`
 	BestComment       string   `json:"best_comment"`
+	BestVerifyDate    string   `json:"best_verify_date"`
 	LastUpdated       string   `json:"last_updated"`
 }
 
@@ -152,6 +171,38 @@ func insertGame(db *sql.DB) http.HandlerFunc {
 	}
 }
 
+func putGamesLastUpdatedAPI(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		//リクエストを受け取る
+		gameID := chi.URLParam(r, "game_id")
+		if gameID == "" {
+			fmt.Fprintf(w, "%s\n", "illegal game_id!")
+			return
+		}
+		var game Game
+		json.NewDecoder(r.Body).Decode(&game)
+		if game.LastUpdated == "" {
+			fmt.Fprintf(w, "%s\n", "illegal json!")
+			return
+		}
+
+		retGame, err := getGameByGameID(gameID, db)
+		if err != nil {
+			fmt.Fprintf(w, "%s\n", "game_id does not exist!")
+			return
+		}
+
+		// Gameテーブルのlast_updatedを変更
+		_, err = db.Exec(`UPDATE games SET last_updated = $1 WHERE game_id = $2`, game.LastUpdated, gameID)
+		if err != nil {
+			fmt.Fprintf(w, "%s\n", "illegal timestamp!")
+			panic(err.Error())
+		}
+		retGame.LastUpdated = game.LastUpdated
+		defer Response(*retGame, w)
+	}
+}
+
 func insertCategory(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		//リクエストを受け取る
@@ -169,29 +220,44 @@ func insertCategory(db *sql.DB) http.HandlerFunc {
 		} else {
 			categoryID = getCategoryIDByPrimaryCategoryAndSubCategory(category.PrimaryCategoryID, category.SubcategoryName, db)
 		}
+		var err error
 		if categoryID != nil {
-			fmt.Fprintf(w, "%s\n", "category_id already exists.")
-			return
+			// category_idが既にDBに存在するのでupdateをかける
+			currentTime := time.Now()
+			_, err = db.Exec(`UPDATE categories SET primary_category_id = $1, game_id = $2, category_name = $3, subcategory_name = $4, best_players_id = $5, best_time = $6, best_date = $7, best_video_link = $8, best_comment = $9, best_verify_date = $10, last_updated = $11 WHERE category_id = $12`,
+				category.PrimaryCategoryID,
+				category.GameID,
+				category.CategoryName,
+				category.SubcategoryName,
+				pq.Array(category.BestPlayersID),
+				category.BestTime,
+				category.BestDate,
+				category.BestVideoLink,
+				category.BestComment,
+				category.BestVerifyDate,
+				currentTime,
+				categoryID)
+		} else {
+			// Categoriesテーブルに新規レコードを追加
+			currentTime := time.Now()
+			_, err = db.Exec(`INSERT INTO categories(primary_category_id, game_id, category_name, subcategory_name, best_players_id, best_time, best_date, best_video_link, best_comment, best_verify_date, last_updated) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+				category.PrimaryCategoryID,
+				category.GameID,
+				category.CategoryName,
+				category.SubcategoryName,
+				pq.Array(category.BestPlayersID),
+				category.BestTime,
+				category.BestDate,
+				category.BestVideoLink,
+				category.BestComment,
+				category.BestVerifyDate,
+				currentTime)
 		}
-
-		currentTime := time.Now()
-		// Categoriesテーブルに新規レコードを追加
-		_, err := db.Exec(`INSERT INTO categories(primary_category_id, game_id, category_name, subcategory_name, best_players_id, best_time, best_date, best_video_link, best_comment, last_updated) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
-			category.PrimaryCategoryID,
-			category.GameID,
-			category.CategoryName,
-			category.SubcategoryName,
-			pq.Array(category.BestPlayersID),
-			category.BestTime,
-			category.BestDate,
-			category.BestVideoLink,
-			category.BestComment,
-			currentTime)
-
 		if err != nil {
 			fmt.Println(err)
 			panic(err.Error())
 		}
+
 		//gamesテーブルのlast_updatedを更新する
 		updateGameLastUpdated(category.GameID, db)
 		// res := getGameIDByGameTitle(game.GameTitle, db, w)
@@ -199,20 +265,47 @@ func insertCategory(db *sql.DB) http.HandlerFunc {
 	}
 }
 
-func fetchCategories(db *sql.DB) http.HandlerFunc {
+func fetchCategoriesAPI(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		offset, err := strconv.Atoi(r.FormValue("offset"))
 		if err != nil {
-			fmt.Fprintf(w, "offset must be int!")
-			return
+			offset = 0
 		}
-		size, err := strconv.Atoi(r.FormValue("size"))
+		size, err := strconv.Atoi(r.FormValue("max"))
 		if err != nil {
-			fmt.Fprintf(w, "size must be int!")
-			return
+			size = 20
+		}
+		if size > 200 {
+			size = 200
+		}
+		orderby := r.FormValue("orderby")
+		direction := r.FormValue("direction")
+
+		queryStr := ""
+		if orderby == "" {
+			queryStr = fmt.Sprintf("SELECT * FROM categories OFFSET %d LIMIT %d", offset, size)
+		} else {
+			if direction != "" && direction != "desc" && direction != "asc" {
+				direction = ""
+			}
+			queryStr = fmt.Sprintf("SELECT * FROM categories WHERE %s is not null ORDER BY %s %s OFFSET %d LIMIT %d", orderby, orderby, direction, offset, size)
 		}
 
-		fetchedCategories, err := getCategoriesOrderByBestDate(size, offset, db, w)
+		fetchedCategories, err := getCategories(queryStr, db)
+		if err != nil {
+			fmt.Fprintf(w, "SQL Error!")
+			fmt.Println(err)
+			panic(err.Error)
+		}
+		defer Response(fetchedCategories, w)
+	}
+}
+
+func fetchCategoriesFromPrimaryCategoryIDAPI(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		primaryCategoryID := chi.URLParam(r, "primary_category_id")
+		queryStr := fmt.Sprintf("SELECT * FROM categories WHERE primary_category_id = '%s'", primaryCategoryID)
+		fetchedCategories, err := getCategories(queryStr, db)
 		if err != nil {
 			fmt.Fprintf(w, "SQL Error!")
 			fmt.Println(err)
@@ -250,6 +343,31 @@ func insertPlayer(db *sql.DB) http.HandlerFunc {
 			// panic(err.Error())
 		}
 		defer Response(player, w)
+	}
+}
+
+func insertRunAPI(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		//リクエストを受け取る
+		var run Run
+		json.NewDecoder(r.Body).Decode(&run)
+		if run.RunID == "" || run.VerifyDate == "" {
+			fmt.Fprintf(w, "%s\n", "illegal json!")
+			return
+		}
+
+		// playersテーブルに新規レコードを追加
+		_, err := db.Exec(`INSERT INTO runs VALUES($1, $2)`,
+			run.RunID,
+			run.VerifyDate)
+
+		if err != nil {
+			fmt.Println(err)
+			fmt.Fprintf(w, "%s\n", "run_id already exists!")
+			return
+			// panic(err.Error())
+		}
+		defer Response(run, w)
 	}
 }
 
@@ -364,8 +482,8 @@ func getPlayerByPlayerID(playerID string, db *sql.DB) (*Player, error) {
 	return &player, nil
 }
 
-func getCategoriesOrderByBestDate(size int, offset int, db *sql.DB, w http.ResponseWriter) ([]FetchedCategory, error) {
-	queryStr := fmt.Sprintf("SELECT * FROM categories ORDER BY best_date DESC OFFSET %d LIMIT %d", offset, size)
+func getCategories(queryStr string, db *sql.DB) ([]FetchedCategory, error) {
+
 	rows, err := db.Query(queryStr)
 	if err != nil {
 		return nil, err
@@ -375,6 +493,7 @@ func getCategoriesOrderByBestDate(size int, offset int, db *sql.DB, w http.Respo
 		fc := FetchedCategory{}
 		gameID := ""
 		bestPlayersID := []string{}
+		nullBestVerifyDate := new(sql.NullString)
 		err := rows.Scan(&fc.CategoryID,
 			&fc.PrimaryCategoryID,
 			&gameID,
@@ -385,10 +504,15 @@ func getCategoriesOrderByBestDate(size int, offset int, db *sql.DB, w http.Respo
 			&fc.BestDate,
 			&fc.BestVideoLink,
 			&fc.BestComment,
-			&fc.LastUpdated)
+			&fc.LastUpdated,
+			nullBestVerifyDate)
 		if err != nil {
+			// fmt.Println(err)
 			// panic(err.Error)
 			return nil, err
+		}
+		if nullBestVerifyDate.Valid {
+			fc.BestVerifyDate = nullBestVerifyDate.String
 		}
 
 		game, err := getGameByGameID(gameID, db)
