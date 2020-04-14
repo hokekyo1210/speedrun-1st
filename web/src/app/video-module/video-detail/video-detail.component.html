@@ -1,5 +1,5 @@
 <div fxLayout="row">
-  <div fxFlex="100" fxFlexFill>
+  <div fxFlex="100" fxFlexFill class="contents">
     <div [ngSwitch]="this.getVideoHost()">
       <div *ngSwitchCase="'Youtube'">
         <youtube-player src={{this.getVideoId()}}></youtube-player>
@@ -11,6 +11,8 @@
         {{this.record.bestVideoLink}}
       </div>
     </div>
+
+    <video-detail-overview [record]="this.record"></video-detail-overview>
 
     <button mat-raised-button (click)="goBack()">
       <mat-icon>arrow_back_ios</mat-icon>

@@ -15,11 +15,11 @@
     <div class="time">{{this.record.bestTime | timer}}</div>
   </mat-card-content>
 
-
-  <img class="game-image"
+  <img
+    class="game-image"
     src=""
     onerror="this.src='./assets/image/no-image.png'"
-    >
+  >
 
     <mat-tab-group>
       <ng-container *ngFor="let player of record.bestPlayers; index as i;">

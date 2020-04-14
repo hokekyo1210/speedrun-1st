@@ -1,0 +1,25 @@
+<div fxLayout="row" class="base" fxLayoutGap="10px">
+  <div fxFlex="20%" fxFlexFill class="contents">
+    <img
+    class="game-image"
+    src=""
+    onerror="this.src='./assets/image/no-image.png'"
+    >
+  </div>
+  <div fxFlex="80%" fxFlexFill>
+    <div class="gameTitle">
+      {{this.record.game.gameTitle}}
+    </div>
+    <div class="category">
+      {{this.record.categoryName}} - {{this.record.subcategoryName}} in {{this.record.bestTime|timer}}
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="comment">
+      {{this.record.bestComment}}
+    </div>
+  </div>
+
+
+</div>

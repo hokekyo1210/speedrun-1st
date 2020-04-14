@@ -31,6 +31,7 @@ import { VideoDetailInformation } from "./video-detail/video-detail-information/
 import { VideoDetailInformationRunner } from "./video-detail/video-detail-information-runner/video-detail-information-runner.component";
 
 import { AppRoutingModule } from './../app-routing.module';
+import { VideoDetailOverview } from './video-detail/video-detail-overview/video-detail-overview';
 
 
 @NgModule({
@@ -49,15 +50,19 @@ import { AppRoutingModule } from './../app-routing.module';
     FlexLayoutModule,
   ],
   declarations: [
+    TimerPipe,
+
     HomeComponent,
     VideoCardComponent,
-    DialogVideo,
+
+    VideoDetail,
     TwitchPlayer,
     YoutubePlayer,
-    VideoDetail,
-    TimerPipe,
+    VideoDetailOverview,
     VideoDetailInformation,
-    VideoDetailInformationRunner
+    VideoDetailInformationRunner,
+
+    DialogVideo
   ],
   providers: [
     VideoLinkService,
