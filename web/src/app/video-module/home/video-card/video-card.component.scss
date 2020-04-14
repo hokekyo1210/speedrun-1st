@@ -1,0 +1,36 @@
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card {
+  // max-width: 140px;
+  width: 140px;
+  height: 230px;
+}
+
+.title {
+  width: 130px;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sub-title {
+  width: 130px;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+mat-card img {
+  object-fit: contain;
+  height: 130px;
+}

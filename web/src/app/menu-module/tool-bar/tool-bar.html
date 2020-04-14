@@ -1,0 +1,47 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <!-- ハンバーガーメニュー -->
+    <button mat-icon-button type="button" (click)="showSideMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <!-- タイトル -->
+    <a routerLink="/home" routerLinkActive="current">
+      <span>Speedrun 1st</span>
+    </a>
+
+    <span class="spacer"></span>
+
+    <!-- 検索フォーム -->
+    <form appearance="fill">
+      <mat-form-field>
+        <input matInput name="searchKeyword" required disabled>
+        <button mat-icon-button  disabled>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+
+    <span class="spacer"></span>
+
+    <!-- 設定メニュー -->
+    <button mat-icon-button [matMenuTriggerFor]="menu" disabled>
+      <mat-icon>settings</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>account_box</mat-icon>
+        <span>Account</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>star</mat-icon>
+        <span>Favorite</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+
+  </mat-toolbar-row>
+</mat-toolbar>

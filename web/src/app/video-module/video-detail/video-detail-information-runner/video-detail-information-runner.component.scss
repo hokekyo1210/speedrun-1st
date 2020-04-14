@@ -1,0 +1,49 @@
+.base {
+  height: 300px;
+
+  // border: 1px solid #999999;
+
+}
+
+.country-image {
+  position: absolute;
+  width: 32px;
+  height: 23px;
+  left: 20px;
+  top: 20px;
+
+  object-fit: contain;
+}
+
+.player-name {
+  position: absolute;
+  width: 240px;
+  height: 23px;
+  left: 60px;
+  top: 20px;
+
+  font-size: 26px;
+  line-height: 28px;
+}
+
+.sns {
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  top: 60px;
+}
+
+.sns-icon {
+  width: 36px;
+  height: 36px;
+}
+
+img.gray {
+  width: 36px;
+  height: 36px;
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  filter: grayscale(100%);
+}

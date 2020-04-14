@@ -2,7 +2,7 @@
 //
 //   import { Convert } from "./file";
 //
-//   const records = Convert.toRecords(json);
+//   const record = Convert.toRecord(json);
 //
 // These functions will throw an error if the JSON doesn't
 // match the expected interface, even if the JSON is valid.
@@ -18,6 +18,7 @@ export interface Record {
   bestDate:          Date;
   bestVideoLink:     string;
   bestComment:       string;
+  bestVerifyDate:    string;
   lastUpdated:       Date;
 }
 
@@ -43,12 +44,12 @@ export interface Game {
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export class RecordConverter {
-  public static toRecords(json: string): Record[] {
-      return cast(JSON.parse(json), a(r("Records")));
+  public static toRecord(json: string): Record[] {
+      return cast(JSON.parse(json), a(r("Record")));
   }
 
-  public static recordsToJson(value: Record[]): string {
-      return JSON.stringify(uncast(value, a(r("Records"))), null, 2);
+  public static recordToJson(value: Record[]): string {
+      return JSON.stringify(uncast(value, a(r("Record"))), null, 2);
   }
 }
 
@@ -182,7 +183,7 @@ function r(name: string) {
 }
 
 const typeMap: any = {
-  "Records": o([
+  "Record": o([
       { json: "category_id", js: "categoryID", typ: "" },
       { json: "primary_category_id", js: "primaryCategoryID", typ: "" },
       { json: "game", js: "game", typ: r("Game") },
@@ -193,6 +194,7 @@ const typeMap: any = {
       { json: "best_date", js: "bestDate", typ: Date },
       { json: "best_video_link", js: "bestVideoLink", typ: "" },
       { json: "best_comment", js: "bestComment", typ: "" },
+      { json: "best_verify_date", js: "bestVerifyDate", typ: "" },
       { json: "last_updated", js: "lastUpdated", typ: Date },
   ], false),
   "BestPlayer": o([

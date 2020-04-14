@@ -1,0 +1,41 @@
+.base {
+  background-color: white;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.game-image {
+  width: 100%;
+  object-fit: contain;
+}
+
+.gameTitle {
+  padding-left: 10px;
+  padding-top: 20px;
+
+  font-size: 24px;
+  line-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.category {
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+
+  font-size: 18px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+
+  color: #333333;
+}
+
+.comment {
+  padding-left: 10px;
+  padding-top: 10px;
+
+  font-size: 14px;
+  line-height: 21px;
+}

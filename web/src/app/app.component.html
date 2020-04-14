@@ -2,15 +2,12 @@
 
 <mat-sidenav-container class="container">
   <!-- サイドメニュー -->
-  <mat-sidenav #sideMenu mode="side-menu">
+  <mat-sidenav #sideMenu class="side-menu" mode="side-menu">
     <side-menu></side-menu>
   </mat-sidenav>
 
   <!-- メインコンテンツ -->
-  <mat-sidenav-content class="center">
-    <h1>{{title}}</h1>
-    <div class="container" fxLayout="row wrap" fxLayoutGap="10px grid" fxLayoutAlign="center">
-      <ng-container #dynamic></ng-container>
-    </div>
+  <mat-sidenav-content (scroll)="scrollEvent($event)">
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

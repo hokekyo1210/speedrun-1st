@@ -6,21 +6,25 @@ import { AppComponent } from './app.component';
 
 import { MatSidenavModule } from "@angular/material/sidenav";
 
-import { MenuModule } from './menu/menu.module';
+import { MenuModule } from './menu-module/menu.module';
 
-import { VideoModule } from './video-module/video-module.module';
+import { VideoModule } from './video-module/video.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { RequestService } from './Service/RequestService';
+import { RequestService } from './Service/request.service';
 import { HttpClientModule } from '@angular/common/http';
-import { VideoComponent } from './video-module/video/video.component';
+
+import { AppRoutingModule } from './app-routing.module';
+
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    AppRoutingModule,
+
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
@@ -35,7 +39,7 @@ import { VideoComponent } from './video-module/video/video.component';
     HttpClientModule,
   ],
   providers: [
-    { provide: RequestService, useClass: RequestService, multi: false }
+    { provide: RequestService, useClass: RequestService, multi: false },
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,10 @@
+.main-column {
+  margin: 5px;
+  padding: 5px;
+}
+.side-column {
+  width: 400px;
+  @media (max-width: 1000px) {
+    display:none;
+  }
+}
