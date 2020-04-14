@@ -2,12 +2,12 @@
 
 <mat-sidenav-container class="container">
   <!-- サイドメニュー -->
-  <mat-sidenav #sideMenu mode="side-menu">
+  <mat-sidenav #sideMenu class="side-menu" mode="side-menu">
     <side-menu></side-menu>
   </mat-sidenav>
 
   <!-- メインコンテンツ -->
-  <mat-sidenav-content class="center">
+  <mat-sidenav-content (scroll)="scrollEvent($event)">
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

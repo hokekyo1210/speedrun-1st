@@ -8,7 +8,7 @@ import { VideoLinkService } from 'src/app/Service/video-link.service';
 
 @Component({
   selector: 'dialog-video',
-  templateUrl: 'dialog-video.component.html'
+  templateUrl: 'video-dialog.component.html'
 })
 export class DialogVideo implements OnInit, OnDestroy {
 

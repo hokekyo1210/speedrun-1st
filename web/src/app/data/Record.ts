@@ -18,7 +18,7 @@ export interface Record {
   bestDate:          Date;
   bestVideoLink:     string;
   bestComment:       string;
-  bestVerifyDate:    Date;
+  bestVerifyDate:    string;
   lastUpdated:       Date;
 }
 
@@ -194,7 +194,7 @@ const typeMap: any = {
       { json: "best_date", js: "bestDate", typ: Date },
       { json: "best_video_link", js: "bestVideoLink", typ: "" },
       { json: "best_comment", js: "bestComment", typ: "" },
-      { json: "best_verify_date", js: "bestVerifyDate", typ: Date },
+      { json: "best_verify_date", js: "bestVerifyDate", typ: "" },
       { json: "last_updated", js: "lastUpdated", typ: Date },
   ], false),
   "BestPlayer": o([

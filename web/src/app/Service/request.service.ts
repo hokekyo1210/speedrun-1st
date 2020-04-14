@@ -20,7 +20,7 @@ export class RequestService {
   /**
    * API 実行対象のURL
    */
-  private host: string = 'http://35.200.25.175';
+  private readonly HOST = 'https://speedrun1st.com/';
 
   constructor(private http: HttpClient) { }
 
@@ -62,7 +62,7 @@ export class RequestService {
   }
 
   private getRequest<T>(path: string, parm: Map<string, string>, toObject: (string) => T[] ): Promise<T[]> {
-    const url = new URL(this.host);
+    const url = new URL(this.HOST);
     url.pathname = path;
     if(parm != null) {
       parm.forEach( (v, k) => url.searchParams.set(k, v) );

@@ -1,0 +1,33 @@
+<mat-card class="card">
+  <h1>
+    Run
+  </h1>
+  <mat-card-header>
+    <mat-card-title class="title">
+      {{record.game.gameTitle}}
+    </mat-card-title>
+    <mat-card-subtitle class="sub-title">
+      {{record.categoryName}}
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="time">{{this.record.bestTime | timer}}</div>
+  </mat-card-content>
+
+
+  <img class="game-image"
+    src=""
+    onerror="this.src='./assets/image/no-image.png'"
+    >
+
+    <mat-tab-group>
+      <ng-container *ngFor="let player of record.bestPlayers; index as i;">
+        <mat-tab label="Runner{{i+1}}">
+          <information-runner [player]="player"></information-runner>
+        </mat-tab>
+      </ng-container>
+    </mat-tab-group>
+
+
+</mat-card>

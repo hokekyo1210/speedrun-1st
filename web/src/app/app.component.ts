@@ -1,14 +1,16 @@
-import { Component, OnInit, ComponentFactory, ViewChild } from '@angular/core';
-import { ComponentFactoryResolver, ViewContainerRef } from '@angular/core'
-
-import { RequestService } from './Service/request.service';
-
-import { Record } from "./data/Record";
-import { VideoComponent } from './video-module/video-card/video.component';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent { }
+export class AppComponent {
+  scrollEvent(event) {
+    const target = event.target;
+    if(target.scrollTop == target.scrollTopMax) {
+      console.log("一番下");
+    }
+  }
+
+}

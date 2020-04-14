@@ -14,15 +14,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { RequestService } from './Service/request.service';
 import { HttpClientModule } from '@angular/common/http';
-import { HomeComponent } from './home.component';
+
 import { AppRoutingModule } from './app-routing.module';
-import { YouTubePlayerModule } from '@angular/youtube-player';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomeComponent
+    AppComponent
   ],
   imports: [
     AppRoutingModule,
@@ -41,7 +39,7 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
     HttpClientModule,
   ],
   providers: [
-    { provide: RequestService, useClass: RequestService, multi: false }
+    { provide: RequestService, useClass: RequestService, multi: false },
   ],
   bootstrap: [AppComponent]
 })

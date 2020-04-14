@@ -2,7 +2,7 @@
 <mat-dialog-content>
     <div [ngSwitch]="this.getVideoHost()">
       <div *ngSwitchCase="'Youtube'">
-        <youtube-player videoId={{this.getVideoId()}} width="100%"></youtube-player>
+        <youtube-player src={{this.getVideoId()}} width="100%"></youtube-player>
       </div>
       <div *ngSwitchCase="'Twitch'">
         <twitch-player src={{this.getVideoId()}} width="100%"></twitch-player>

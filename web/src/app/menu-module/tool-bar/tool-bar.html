@@ -6,15 +6,17 @@
     </button>
 
     <!-- タイトル -->
-    <span>Speedrun 1st</span>
+    <a routerLink="/home" routerLinkActive="current">
+      <span>Speedrun 1st</span>
+    </a>
 
     <span class="spacer"></span>
 
     <!-- 検索フォーム -->
     <form appearance="fill">
       <mat-form-field>
-        <input matInput name="searchKeyword" required>
-        <button mat-icon-button>
+        <input matInput name="searchKeyword" required disabled>
+        <button mat-icon-button  disabled>
           <mat-icon>search</mat-icon>
         </button>
       </mat-form-field>

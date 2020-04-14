@@ -13,8 +13,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ToolBar } from './tool-bar/tool-bar';
 import { SideMenu } from './side-menu/side-menu';
 
+import { AppRoutingModule } from './../app-routing.module';
+
 @NgModule({
   imports: [
+    AppRoutingModule,
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,

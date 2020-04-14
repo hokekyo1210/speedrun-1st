@@ -4,9 +4,7 @@ import {sprintf} from "sprintf-js";
 @Pipe({ name: 'timer' })
 export class TimerPipe implements PipeTransform {
   transform(value: string, ...args: any[]) {
-    console.log(value);
     let num = Number(value);
-    console.log(num);
 
     const hh = Math.floor(num/3600);
     num %= 3600;
@@ -14,12 +12,7 @@ export class TimerPipe implements PipeTransform {
     num %= 60;
     const ss = num;
 
-    console.log(hh);
-    console.log(mm);
-    console.log(ss);
-
-    const res = sprintf("%02d:%02d:%05.2f", hh, mm, ss);
-    console.log(res);
+    const res = sprintf("%02d:%02d:%06.3f", hh, mm, ss);
     return res;
   }
 

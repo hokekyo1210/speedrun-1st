@@ -1,13 +1,15 @@
 <mat-list>
   <mat-list-item>Menu</mat-list-item>
   <mat-list-item>
-    <button mat-button>
-      <mat-icon>home</mat-icon>
-      <span>Home</span>
-    </button>
+    <a routerLink="/home" routerLinkActive="current">
+      <button mat-button>
+        <mat-icon>home</mat-icon>
+        <span>Home</span>
+      </button>
+    </a>
   </mat-list-item>
   <mat-list-item>
-    <button mat-button>
+    <button mat-button disabled>
       <mat-icon>trending_up</mat-icon>
       <span>Trend</span>
     </button>
@@ -16,7 +18,7 @@
 
   <mat-list-item>Link</mat-list-item>
   <mat-list-item>
-    <a href="https://www.speedrun.com/">
+    <a href="https://www.speedrun.com/" target="_blank">
       <button mat-button>
         <img src="https://www.speedrun.com/themes/Default/1st.png" width="25" height="25" />
         <span>SPEEDRUN.COM</span>
@@ -27,7 +29,7 @@
 
   <mat-list-item>Other</mat-list-item>
   <mat-list-item>
-    <button mat-button>
+    <button mat-button disabled>
       <mat-icon>help</mat-icon>
       <span>Help</span>
     </button>

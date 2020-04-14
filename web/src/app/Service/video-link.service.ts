@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { ImgSrcDirective } from '@angular/flex-layout';
 
 export type VideoHost = 'Youtube'|'Twitch';
 
@@ -49,6 +50,10 @@ export class VideoLinkService {
     return VideoLinkService.DISCRIMINATOR[url.host];
   }
 
+  /**
+   * サムネイルURLの取得
+   * @param url
+   */
   public getThumbnailUrl(url: URL) {
     try {
       const videHost = this.getVideoHost(url);
@@ -63,6 +68,28 @@ export class VideoLinkService {
       return "";
     }
     return "";
+  }
+
+
+  private static readonly THMBNAIL_URL_BASE = './assets/movie-default-thumbnail/';
+  private static readonly THUMBNAIL_URL: {[key: string]: string} = {
+    ['youtu.be']: VideoLinkService.THMBNAIL_URL_BASE + 'youtube.png',
+    ['www.youtube.com']: VideoLinkService.THMBNAIL_URL_BASE + 'youtube.png',
+    ['www.twitch.tv']: VideoLinkService.THMBNAIL_URL_BASE + 'twitch.png',
+    ['default']: VideoLinkService.THMBNAIL_URL_BASE + 'default.png',
+  }
+
+  /**
+   * サムネイルを取得できなかった場合の画像URL
+   * @param url
+   */
+  public getDefaultThmbnailUrl(url: URL) {
+    try {
+      return VideoLinkService.THUMBNAIL_URL[url.host];
+    } catch(error) {
+      // 握りつぶしても問題なし
+    }
+    return VideoLinkService.THUMBNAIL_URL['default'];
   }
 
 }

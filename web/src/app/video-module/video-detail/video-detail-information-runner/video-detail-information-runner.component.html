@@ -1,0 +1,27 @@
+<div class="base">
+  <img class="country-image" [src]="safeUrl">
+  <div class="player-name">
+    {{player.playerName}}
+  </div>
+
+  <div class="sns" fxLayout="row" fxLayoutAlign="space-around">
+    <ng-container *ngFor="let sns of snsList">
+      <!-- SNS URLがある場合 -->
+      <div *ngIf="sns.url != null; else elseContent">
+        <a href={{sns.url}} target="_blank">
+          <button mat-button>
+            <img class="sns-icon" src="./assets/sns-icon/{{sns.imgSrc}}">
+          </button>
+        </a>
+      </div>
+      <!-- SNS URLがない場合 -->
+      <ng-template #elseContent>
+        <button mat-button disabled>
+          <img class="gray" src="./assets/sns-icon/{{sns.imgSrc}}">
+        </button>
+      </ng-template>
+
+    </ng-container>
+  </div>
+</div>
+
