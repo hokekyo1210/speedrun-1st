@@ -6,10 +6,10 @@ import { VideoDetail } from './video-module/video-detail/video-detail.component'
 import { RequestRecordResolver } from './Service/request-record-resolver.service';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'runs/:runs-id', component: VideoDetail, resolve: { record: RequestRecordResolver } },
   // すべてのパスを/homeにリダイレクト rkllz18k
-  { path: '**', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];
 
 @NgModule({

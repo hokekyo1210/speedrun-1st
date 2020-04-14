@@ -1,16 +1,9 @@
 import { Injectable } from "@angular/core";
-import { ImgSrcDirective } from '@angular/flex-layout';
 
 export type VideoHost = 'Youtube'|'Twitch';
 
 @Injectable()
 export class VideoLinkService {
-
-  private static DISCRIMINATOR: {[host: string]: VideoHost} = {
-    ['youtu.be']: 'Youtube',
-    ['www.youtube.com']: 'Youtube',
-    ['www.twitch.tv']: 'Twitch',
-  }
 
   private static EXTRACTOR: {[key: string]: (str:URL) => string} = {
     ['youtu.be']: VideoLinkService.extractVideoIdForYoutube,
@@ -42,6 +35,12 @@ export class VideoLinkService {
     return VideoLinkService.EXTRACTOR[url.host](url);
   }
 
+  private static DISCRIMINATOR: {[host: string]: VideoHost} = {
+    ['youtu.be']: 'Youtube',
+    ['www.youtube.com']: 'Youtube',
+    ['www.twitch.tv']: 'Twitch',
+  }
+
   /**
    * VideoHostの判別
    * @param record
@@ -59,7 +58,7 @@ export class VideoLinkService {
       const videHost = this.getVideoHost(url);
       if(videHost == 'Youtube') {
         const videoId = this.getVideoId(url);
-        return `https://img.youtube.com/vi/${videoId}/sddefault.jpg`;
+        return `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`;
       } else if(videHost == 'Twitch') {
         const videoId = this.getVideoId(url);
         // cant found thumbnail api ...
@@ -71,7 +70,7 @@ export class VideoLinkService {
   }
 
 
-  private static readonly THMBNAIL_URL_BASE = './assets/movie-default-thumbnail/';
+  private static readonly THMBNAIL_URL_BASE = './assets/image/movie-default-thumbnail/';
   private static readonly THUMBNAIL_URL: {[key: string]: string} = {
     ['youtu.be']: VideoLinkService.THMBNAIL_URL_BASE + 'youtube.png',
     ['www.youtube.com']: VideoLinkService.THMBNAIL_URL_BASE + 'youtube.png',

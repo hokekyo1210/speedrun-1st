@@ -10,14 +10,14 @@
       <div *ngIf="sns.url != null; else elseContent">
         <a href={{sns.url}} target="_blank">
           <button mat-button>
-            <img class="sns-icon" src="./assets/sns-icon/{{sns.imgSrc}}">
+            <img class="sns-icon" src="./assets/image/sns-icon/{{sns.imgSrc}}">
           </button>
         </a>
       </div>
       <!-- SNS URLがない場合 -->
       <ng-template #elseContent>
         <button mat-button disabled>
-          <img class="gray" src="./assets/sns-icon/{{sns.imgSrc}}">
+          <img class="gray" src="./assets/image/sns-icon/{{sns.imgSrc}}">
         </button>
       </ng-template>
 

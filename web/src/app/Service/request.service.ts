@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+
+import { environment } from './../../environments/environment';
 
 import { Record, RecordConverter } from "../data/Record";
 
@@ -20,7 +21,7 @@ export class RequestService {
   /**
    * API 実行対象のURL
    */
-  private readonly HOST = 'https://speedrun1st.com/';
+  private readonly HOST = environment.apiHost;
 
   constructor(private http: HttpClient) { }
 

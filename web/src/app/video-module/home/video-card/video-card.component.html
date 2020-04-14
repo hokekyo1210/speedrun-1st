@@ -1,4 +1,4 @@
-<a [routerLink]="['/runs', record.primaryCategoryID]" routerLinkActive="current">
+<a routerLink="/runs/{{this.record.primaryCategoryID}}" routerLinkActive="current">
   <mat-card class="card">
     <mat-card-header>
       <mat-card-title class="title" matTooltip={{record.game.gameTitle}}>{{record.game.gameTitle}}</mat-card-title>
@@ -11,8 +11,11 @@
       (error)="onImageLoadingError()"
       >
 
-    <mat-card-content>
-      Time: {{this.record.bestTime | timer}}
+    <mat-card-content class="timer">
+      {{this.record.bestTime | timer}}
     </mat-card-content>
+    <mat-card-footer class="footer" matTooltip="Verify Date by Speedrun.com">
+      {{this.record.bestVerifyDate | date:'yyyy.MM.dd hh:mm:ss'}}
+    </mat-card-footer>
   </mat-card>
 </a>

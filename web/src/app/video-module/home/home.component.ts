@@ -1,4 +1,7 @@
 import { Component, OnInit, ComponentFactory, ViewChild, ViewContainerRef, ComponentFactoryResolver } from "@angular/core";
+
+import { environment } from "./../../../environments/environment";
+
 import { VideoCardComponent } from './video-card/video-card.component';
 import { RequestService } from '../../Service/request.service';
 import { Record } from '../../data/Record';
@@ -12,7 +15,10 @@ export class HomeComponent implements OnInit {
   factory: ComponentFactory<VideoCardComponent>;
   @ViewChild('videoCardPlace', {read: ViewContainerRef}) viewContainerRef: ViewContainerRef;
 
+  private readonly loadMax = environment.home.loadMax;
+  // ロード済みのデータを指し示すインデクス
   private index = 0;
+  // ロード中の場合はnullではなくなる
   private request: Promise<void>;
 
   constructor(
@@ -45,11 +51,11 @@ export class HomeComponent implements OnInit {
     if(this.request != null)
       return;
 
-    this.request = this.requester.getRecords(20, this.index)
+    this.request = this.requester.getRecords(this.loadMax, this.index)
       .then((e) => this.addRecord(e))
       .finally(() => {
         this.request = null
-        this.index += 20;
+        this.index += this.loadMax;
       });
   }
 }

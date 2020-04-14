@@ -1,12 +1,8 @@
-<h2>Today's Run</h2>
-<div
-  class="flexLayout"
-  fxLayout="row wrap"
-  fxLayoutGap="10px grid"
-  fxLayoutAlign="center"
->
+<h2 class="header">Today's Run</h2>
+<div class="cardList" fxLayoutAlign="center">
   <ng-container #videoCardPlace></ng-container>
 </div>
+
 <div class="loadWrapper">
   <button mat-raised-button class="loadButton" (click)="loadRecord()">Load</button>
 </div>
