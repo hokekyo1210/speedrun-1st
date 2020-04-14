@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
   factory: ComponentFactory<VideoCardComponent>;
   @ViewChild('videoCardPlace', {read: ViewContainerRef}) viewContainerRef: ViewContainerRef;
 
+  private index = 0;
   private request: Promise<void>;
 
   constructor(
@@ -44,8 +45,11 @@ export class HomeComponent implements OnInit {
     if(this.request != null)
       return;
 
-    this.request = this.requester.getRecords(20, 0)
+    this.request = this.requester.getRecords(20, this.index)
       .then((e) => this.addRecord(e))
-      .finally(() => this.request = null);
+      .finally(() => {
+        this.request = null
+        this.index += 20;
+      });
   }
 }

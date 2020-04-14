@@ -4,9 +4,6 @@
 }
 
 .title {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
   font-size: 24px;
   line-height: 28px;
   display: flex;
@@ -15,8 +12,6 @@
 
 .sub-title {
   font-family: Roboto Slab;
-  font-style: normal;
-  font-weight: normal;
   font-size: 18px;
   line-height: 24px;
   align-items: center;
@@ -24,17 +19,15 @@
 }
 
 .time {
-  font-family: Roboto;
-  font-style: normal;
   font-weight: bold;
-  font-size: 48px;
+  font-size: 40px;
   line-height: 45px;
   align-items: center;
   text-align: center;
 
   /* Red */
 
-  color: rgb(182, 235, 102);
+  color: greenyellow;
 
   /* Gray 1 */
   text-shadow:1px 1px 0 #333333,-1px 1px 0 #333333,1px -1px 0 #333333,-1px -1px 0 #333333;

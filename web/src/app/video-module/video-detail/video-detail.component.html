@@ -1,5 +1,5 @@
 <div fxLayout="row">
-  <div fxFlex="100" fxFlexFill class="contents">
+  <div fxFlex="100" fxFlexFill class="main-column">
     <div [ngSwitch]="this.getVideoHost()">
       <div *ngSwitchCase="'Youtube'">
         <youtube-player src={{this.getVideoId()}}></youtube-player>
@@ -21,7 +21,7 @@
 
   </div>
 
-  <div fxFlex="480px" fxFlexFill>
+  <div fxFlex="400px" fxFlexFill class="side-column">
     <video-detail-information [record]="this.record"></video-detail-information>
   </div>
 

@@ -10,6 +10,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatListModule } from "@angular/material/list";
+import { MatSidenavModule } from "@angular/material/sidenav";
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -45,6 +46,8 @@ import { VideoDetailOverview } from './video-detail/video-detail-overview/video-
     MatTooltipModule,
     MatTabsModule,
     MatListModule,
+    MatSidenavModule,
+
     FormsModule,
     BrowserModule,
     FlexLayoutModule,
