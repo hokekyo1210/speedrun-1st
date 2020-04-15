@@ -52,13 +52,22 @@ export class RequestService {
    * テスト実装
    * @param categoryId
    */
-  public getRecord(categoryId: string): Promise<Record>{
+  public getRecord(primaryCategoryId: string, categoryId: string): Promise<Record>{
     return this.getRequest(
-      "v1/records/" + categoryId,
+      "v1/records/" + primaryCategoryId,
       null,
       RecordConverter.toRecord
     ).then(
-      e => e[0]
+      records => {
+        // カテゴリIDで取得した記録配列からプライマリIDを使って検索
+        for (const record of records) {
+          if(record.categoryID == categoryId){
+            return record;
+          }
+        }
+        // 見つからなかったら1番目を返す
+        return records[0];
+      }
     );
   }
 

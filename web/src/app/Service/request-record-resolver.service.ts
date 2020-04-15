@@ -14,7 +14,7 @@ export class RequestRecordResolver implements Resolve<Record> {
   resolve(route: import("@angular/router").ActivatedRouteSnapshot,
           state: import("@angular/router").RouterStateSnapshot
         ): Record | import("rxjs").Observable<Record> | Promise<Record> {
-    return this.requester.getRecord(route.params['runs-id']);
+    return this.requester.getRecord(route.params['runs-id'], route.params['category-id']);
   }
 
 }

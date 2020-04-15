@@ -1,11 +1,11 @@
-<a routerLink="/runs/{{this.record.primaryCategoryID}}" routerLinkActive="current">
+<a routerLink="/runs/{{this.record.primaryCategoryID}}/{{this.record.categoryID}}" routerLinkActive="current">
   <mat-card class="card">
     <mat-card-header>
       <mat-card-title class="title" matTooltip={{record.game.gameTitle}}>{{record.game.gameTitle}}</mat-card-title>
       <mat-card-subtitle class="sub-title" matTooltip={{record.categoryName}}>{{record.categoryName}}</mat-card-subtitle>
     </mat-card-header>
 
-    <img mat-card-image
+      <img mat-card-image
       class="movie-image"
       src={{imgSrc}}
       (error)="onImageLoadingError()"
