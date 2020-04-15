@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogVideo } from '../../video-dialog/video-dialog.component';
 
-import { Record } from '../../../data/Record'
+import { Record } from './../../../../data/Record'
 import { VideoLinkService } from 'src/app/Service/video-link.service';
 
 @Component({
@@ -31,8 +31,13 @@ export class VideoCardComponent implements OnInit {
       this.imgSrc = this.videoLinkService.getThumbnailUrl(url);
       this.defaultImgSrc = this.videoLinkService.getDefaultThmbnailUrl(url);
     } else {
-      this.imgSrc = this.videoLinkService.getDefaultThmbnailUrl(null);
+      this.defaultImgSrc = this.videoLinkService.getDefaultThmbnailUrl(null);
     }
+
+    if(this.imgSrc == "") {
+      this.imgSrc = this.defaultImgSrc;
+    }
+
   }
 
   /**

@@ -13,6 +13,7 @@ export class TimerPipe implements PipeTransform {
     const ss = num;
 
     const res = sprintf("%02d:%02d:%06.3f", hh, mm, ss);
+
     return res;
   }
 

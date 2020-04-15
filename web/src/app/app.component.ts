@@ -10,6 +10,7 @@ export class AppComponent {
     const target = event.target;
     if(target.scrollTop == target.scrollTopMax) {
       // スクロールイベント
+      console.log('一番下')
     }
   }
 

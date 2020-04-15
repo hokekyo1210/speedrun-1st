@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-export type VideoHost = 'Youtube'|'Twitch';
+export type VideoHost = 'Youtube'|'Twitch'|'Bilibili';
 
 @Injectable()
 export class VideoLinkService {
@@ -9,8 +9,10 @@ export class VideoLinkService {
     ['youtu.be']: VideoLinkService.extractVideoIdForYoutube,
     ['www.youtube.com']: VideoLinkService.extractVideoIdForYoutubeCom,
     ['www.twitch.tv']: VideoLinkService.extractVideoIdForTwitch,
+    ['www.bilibili.com']: VideoLinkService.extractVideoIdForBilibili,
   };
 
+  // https://youtu.be/XXXXXXXXXXX
   private static extractVideoIdForYoutube(url: URL): string {
     const paths = url.pathname.split('/');
     return paths[paths.length - 1];
@@ -27,6 +29,12 @@ export class VideoLinkService {
     return videoId;
   }
 
+  // https://www.bilibili.com/video/avXXXXXXXX/
+  private static extractVideoIdForBilibili(url: URL): string {
+    const paths = url.pathname.split('/');
+    return paths[2].substring(2);
+  }
+
   /**
    * VideoIdの取得
    * @param record
@@ -39,6 +47,7 @@ export class VideoLinkService {
     ['youtu.be']: 'Youtube',
     ['www.youtube.com']: 'Youtube',
     ['www.twitch.tv']: 'Twitch',
+    ['www.bilibili.com']: 'Bilibili',
   }
 
   /**
@@ -62,6 +71,9 @@ export class VideoLinkService {
       } else if(videHost == 'Twitch') {
         const videoId = this.getVideoId(url);
         // cant found thumbnail api ...
+      } else if(videHost == 'Bilibili') {
+        const videoId = this.getVideoId(url);
+        // cant unserstand thumbnail url pattern ...
       }
     } catch (error) {
       return "";
@@ -75,6 +87,7 @@ export class VideoLinkService {
     ['youtu.be']: VideoLinkService.THMBNAIL_URL_BASE + 'youtube.png',
     ['www.youtube.com']: VideoLinkService.THMBNAIL_URL_BASE + 'youtube.png',
     ['www.twitch.tv']: VideoLinkService.THMBNAIL_URL_BASE + 'twitch.png',
+    ['www.bilibili.com']: VideoLinkService.THMBNAIL_URL_BASE + 'bilibili.png',
     ['default']: VideoLinkService.THMBNAIL_URL_BASE + 'default.png',
   }
 
@@ -83,12 +96,12 @@ export class VideoLinkService {
    * @param url
    */
   public getDefaultThmbnailUrl(url: URL) {
-    try {
-      return VideoLinkService.THUMBNAIL_URL[url.host];
-    } catch(error) {
-      // 握りつぶしても問題なし
+    let host = 'default';
+    if(url != null && url.host in VideoLinkService.THUMBNAIL_URL) {
+      host = url.host;
     }
-    return VideoLinkService.THUMBNAIL_URL['default'];
+
+    return VideoLinkService.THUMBNAIL_URL[host];
   }
 
 }

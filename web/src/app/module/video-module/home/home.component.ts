@@ -1,10 +1,10 @@
 import { Component, OnInit, ComponentFactory, ViewChild, ViewContainerRef, ComponentFactoryResolver } from "@angular/core";
 
-import { environment } from "./../../../environments/environment";
+import { environment } from "./../../../../environments/environment";
 
 import { VideoCardComponent } from './video-card/video-card.component';
-import { RequestService } from '../../Service/request.service';
-import { Record } from '../../data/Record';
+import { RequestService } from './../../../Service/request.service';
+import { Record } from './../../../data/Record';
 
 @Component({
   selector: 'home',
@@ -39,13 +39,13 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  scrollEvent(event) {
-    const target = event.target;
-    console.log(target);
-    if(target.scrollTop == target.scrollTopMax){
-      console.log("一番下");
-    }
-  }
+  // scrollEvent(event) {
+  //   const target = event.target;
+  //   console.log(target);
+  //   if(target.scrollTop == target.scrollTopMax){
+  //     console.log("一番下");
+  //   }
+  // }
 
   public loadRecord() {
     if(this.request != null)

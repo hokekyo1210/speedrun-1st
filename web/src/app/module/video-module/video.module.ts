@@ -14,10 +14,10 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { VideoLinkService } from "../Service/video-link.service";
-import { RequestRecordResolver } from '../Service/request-record-resolver.service';
+import { VideoLinkService } from "./../../Service/video-link.service";
+import { RequestRecordResolver } from './../../Service/request-record-resolver.service';
 
-import { TimerPipe } from "../pipe/timer.pipe";
+import { TimerPipe } from "./../../pipe/timer.pipe";
 import { VideoDetail } from './video-detail/video-detail.component';
 
 import { TwitchPlayer } from "./tiwitch-player/twitch-player.component";
@@ -31,8 +31,9 @@ import { DialogVideo } from "./video-dialog/video-dialog.component";
 import { VideoDetailInformation } from "./video-detail/video-detail-information/video-detail-information.component";
 import { VideoDetailInformationRunner } from "./video-detail/video-detail-information-runner/video-detail-information-runner.component";
 
-import { AppRoutingModule } from './../app-routing.module';
+import { AppRoutingModule } from './../../app-routing.module';
 import { VideoDetailOverview } from './video-detail/video-detail-overview/video-detail-overview';
+import { BilibiliPlayer } from './bilibili-player/bilibili-player.component';
 
 
 @NgModule({
@@ -61,11 +62,13 @@ import { VideoDetailOverview } from './video-detail/video-detail-overview/video-
     VideoDetail,
     TwitchPlayer,
     YoutubePlayer,
+    BilibiliPlayer,
     VideoDetailOverview,
     VideoDetailInformation,
     VideoDetailInformationRunner,
 
-    DialogVideo
+    DialogVideo,
+
   ],
   providers: [
     VideoLinkService,

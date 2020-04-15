@@ -1,0 +1,13 @@
+.video {
+  width:100%;              /*横幅いっぱいにwidthを指定*/
+  padding-bottom: 56.25%;  /*高さをpaddingで指定(16:9)*/
+  height:0px;              /*高さはpaddingで指定するためheightは0に*/
+  position: relative;
+}
+.video iframe{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

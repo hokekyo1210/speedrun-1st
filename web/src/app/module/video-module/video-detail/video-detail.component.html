@@ -7,9 +7,13 @@
       <div *ngSwitchCase="'Twitch'">
         <twitch-player src={{this.getVideoId()}}></twitch-player>
       </div>
+      <div *ngSwitchCase="'Bilibili'">
+        <bilibili-player src={{this.getVideoId()}}></bilibili-player>
+      </div>
       <div *ngSwitchDefault>
         {{this.record.bestVideoLink}}
       </div>
+
     </div>
 
     <video-detail-overview [record]="this.record"></video-detail-overview>

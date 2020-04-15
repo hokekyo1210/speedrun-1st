@@ -6,9 +6,9 @@ import { AppComponent } from './app.component';
 
 import { MatSidenavModule } from "@angular/material/sidenav";
 
-import { MenuModule } from './menu-module/menu.module';
+import { MenuModule } from './module/menu-module/menu.module';
 
-import { VideoModule } from './video-module/video.module';
+import { VideoModule } from './module/video-module/video.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
