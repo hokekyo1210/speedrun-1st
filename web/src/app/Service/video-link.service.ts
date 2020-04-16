@@ -10,6 +10,7 @@ export class VideoLinkService {
     ['youtu.be']: VideoLinkService.extractVideoIdForYoutube,
     ['www.youtube.com']: VideoLinkService.extractVideoIdForYoutubeCom,
     ['youtube.com']: VideoLinkService.extractVideoIdForYoutubeCom,
+    ['m.youtube.com']: VideoLinkService.extractVideoIdForYoutubeCom,
     ['www.twitch.tv']: VideoLinkService.extractVideoIdForTwitch,
     ['www.bilibili.com']: VideoLinkService.extractVideoIdForBilibili,
   };
@@ -20,6 +21,7 @@ export class VideoLinkService {
     return paths[paths.length - 1];
   }
 
+  // https://www.youtube.com/watch?v=XXXXXXXXXXX
   private static extractVideoIdForYoutubeCom(url: URL): string {
     if(url.searchParams.has('v'))
       return url.searchParams.get('v');
@@ -49,6 +51,7 @@ export class VideoLinkService {
     ['youtu.be']: 'Youtube',
     ['www.youtube.com']: 'Youtube',
     ['youtube.com']: 'Youtube',
+    ['m.youtube.com']: 'Youtube',
     ['www.twitch.tv']: 'Twitch',
     ['www.bilibili.com']: 'Bilibili',
   }
@@ -90,6 +93,7 @@ export class VideoLinkService {
     ['youtu.be']: VideoLinkService.THMBNAIL_URL_BASE + 'youtube.png',
     ['www.youtube.com']: VideoLinkService.THMBNAIL_URL_BASE + 'youtube.png',
     ['youtube.com']: VideoLinkService.THMBNAIL_URL_BASE + 'youtube.png',
+    ['m.youtube.com']: VideoLinkService.THMBNAIL_URL_BASE + 'youtube.png',
     ['www.twitch.tv']: VideoLinkService.THMBNAIL_URL_BASE + 'twitch.png',
     ['www.bilibili.com']: VideoLinkService.THMBNAIL_URL_BASE + 'bilibili.png',
     ['default']: VideoLinkService.THMBNAIL_URL_BASE + 'default.png',
