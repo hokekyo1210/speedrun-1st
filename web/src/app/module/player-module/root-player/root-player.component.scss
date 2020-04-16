@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+.frame {
+  width:100%;              /*横幅いっぱいにwidthを指定*/
+  padding-bottom: 56.25%;  /*高さをpaddingで指定(16:9)*/
+  height:0px;              /*高さはpaddingで指定するためheightは0に*/
+  position: relative;
+}
+.frame div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background-color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.frame span {
+  font-size: 3rem;
+  font-family: 'Russo One', sans-serif;
+  color: #808080;
+}
+.frame a {
+  font-size: 1rem;
+}
+
+.frame img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

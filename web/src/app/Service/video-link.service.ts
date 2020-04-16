@@ -5,9 +5,11 @@ export type VideoHost = 'Youtube'|'Twitch'|'Bilibili';
 @Injectable()
 export class VideoLinkService {
 
+  // ホスト名 -> 動画IDを特定するメソッド map
   private static EXTRACTOR: {[key: string]: (str:URL) => string} = {
     ['youtu.be']: VideoLinkService.extractVideoIdForYoutube,
     ['www.youtube.com']: VideoLinkService.extractVideoIdForYoutubeCom,
+    ['youtube.com']: VideoLinkService.extractVideoIdForYoutubeCom,
     ['www.twitch.tv']: VideoLinkService.extractVideoIdForTwitch,
     ['www.bilibili.com']: VideoLinkService.extractVideoIdForBilibili,
   };
@@ -46,6 +48,7 @@ export class VideoLinkService {
   private static DISCRIMINATOR: {[host: string]: VideoHost} = {
     ['youtu.be']: 'Youtube',
     ['www.youtube.com']: 'Youtube',
+    ['youtube.com']: 'Youtube',
     ['www.twitch.tv']: 'Twitch',
     ['www.bilibili.com']: 'Bilibili',
   }
@@ -86,6 +89,7 @@ export class VideoLinkService {
   private static readonly THUMBNAIL_URL: {[key: string]: string} = {
     ['youtu.be']: VideoLinkService.THMBNAIL_URL_BASE + 'youtube.png',
     ['www.youtube.com']: VideoLinkService.THMBNAIL_URL_BASE + 'youtube.png',
+    ['youtube.com']: VideoLinkService.THMBNAIL_URL_BASE + 'youtube.png',
     ['www.twitch.tv']: VideoLinkService.THMBNAIL_URL_BASE + 'twitch.png',
     ['www.bilibili.com']: VideoLinkService.THMBNAIL_URL_BASE + 'bilibili.png',
     ['default']: VideoLinkService.THMBNAIL_URL_BASE + 'default.png',
@@ -95,7 +99,7 @@ export class VideoLinkService {
    * サムネイルを取得できなかった場合の画像URL
    * @param url
    */
-  public getDefaultThmbnailUrl(url: URL) {
+  public getDefaultThumbnailUrl(url: URL) {
     let host = 'default';
     if(url != null && url.host in VideoLinkService.THUMBNAIL_URL) {
       host = url.host;

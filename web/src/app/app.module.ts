@@ -8,7 +8,7 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 
 import { MenuModule } from './module/menu-module/menu.module';
 
-import { VideoModule } from './module/video-module/video.module';
+import { ContentsModule } from './module/contents-module/contents.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -32,7 +32,7 @@ import { AppRoutingModule } from './app-routing.module';
     FlexLayoutModule,
     MenuModule,
 
-    VideoModule,
+    ContentsModule,
 
     MatSidenavModule,
 

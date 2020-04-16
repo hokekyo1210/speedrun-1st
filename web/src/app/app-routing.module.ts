@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeComponent } from "./module/video-module/home/home.component";
-import { VideoDetail } from './module/video-module/video-detail/video-detail.component';
+import { HomeComponent } from "./module/contents-module/home/home.component";
+import { VideoDetail } from './module/contents-module/video-detail/video-detail.component';
 import { RequestRecordResolver } from './Service/request-record-resolver.service';
 
 const routes: Routes = [

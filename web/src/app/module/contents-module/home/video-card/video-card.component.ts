@@ -29,9 +29,9 @@ export class VideoCardComponent implements OnInit {
     if(this.record.bestVideoLink != "") {
       const url = new URL(this.record.bestVideoLink);
       this.imgSrc = this.videoLinkService.getThumbnailUrl(url);
-      this.defaultImgSrc = this.videoLinkService.getDefaultThmbnailUrl(url);
+      this.defaultImgSrc = this.videoLinkService.getDefaultThumbnailUrl(url);
     } else {
-      this.defaultImgSrc = this.videoLinkService.getDefaultThmbnailUrl(null);
+      this.defaultImgSrc = this.videoLinkService.getDefaultThumbnailUrl(null);
     }
 
     if(this.imgSrc == "") {

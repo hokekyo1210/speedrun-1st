@@ -1,0 +1,23 @@
+<div [ngSwitch]="this.getVideoHost()">
+  <div *ngSwitchCase="'Youtube'">
+    <youtube-player src={{this.getVideoId()}}></youtube-player>
+  </div>
+  <div *ngSwitchCase="'Twitch'">
+    <twitch-player src={{this.getVideoId()}}></twitch-player>
+  </div>
+  <div *ngSwitchCase="'Bilibili'">
+    <bilibili-player src={{this.getVideoId()}}></bilibili-player>
+  </div>
+  <div *ngSwitchDefault>
+    <div class="frame">
+      <div>
+        <span>
+          Unsupported video host.
+          <a href={{this.bestVideoLink}} target="_blank">
+            [Link]
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

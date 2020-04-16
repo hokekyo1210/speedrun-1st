@@ -14,26 +14,24 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { VideoLinkService } from "./../../Service/video-link.service";
-import { RequestRecordResolver } from './../../Service/request-record-resolver.service';
+import { VideoLinkService } from "../../Service/video-link.service";
+import { RequestRecordResolver } from '../../Service/request-record-resolver.service';
 
-import { TimerPipe } from "./../../pipe/timer.pipe";
+import { TimerPipe } from "../../pipe/timer.pipe";
+
+import { AppRoutingModule } from '../../app-routing.module';
+
 import { VideoDetail } from './video-detail/video-detail.component';
-
-import { TwitchPlayer } from "./tiwitch-player/twitch-player.component";
-import { YoutubePlayer } from "./youtube-player/youtube-player.component";
-
 import { HomeComponent } from './home/home.component';
 
-import { VideoCardComponent } from './home/video-card/video-card.component';
 import { DialogVideo } from "./video-dialog/video-dialog.component";
 
+import { VideoCardComponent } from './home/video-card/video-card.component';
+import { VideoDetailOverview } from './video-detail/video-detail-overview/video-detail-overview';
 import { VideoDetailInformation } from "./video-detail/video-detail-information/video-detail-information.component";
 import { VideoDetailInformationRunner } from "./video-detail/video-detail-information-runner/video-detail-information-runner.component";
 
-import { AppRoutingModule } from './../../app-routing.module';
-import { VideoDetailOverview } from './video-detail/video-detail-overview/video-detail-overview';
-import { BilibiliPlayer } from './bilibili-player/bilibili-player.component';
+import { PlayerModule } from '../player-module/player.module';
 
 
 @NgModule({
@@ -52,6 +50,8 @@ import { BilibiliPlayer } from './bilibili-player/bilibili-player.component';
     FormsModule,
     BrowserModule,
     FlexLayoutModule,
+
+    PlayerModule,
   ],
   declarations: [
     TimerPipe,
@@ -60,15 +60,11 @@ import { BilibiliPlayer } from './bilibili-player/bilibili-player.component';
     VideoCardComponent,
 
     VideoDetail,
-    TwitchPlayer,
-    YoutubePlayer,
-    BilibiliPlayer,
     VideoDetailOverview,
     VideoDetailInformation,
     VideoDetailInformationRunner,
 
     DialogVideo,
-
   ],
   providers: [
     VideoLinkService,
@@ -79,4 +75,4 @@ import { BilibiliPlayer } from './bilibili-player/bilibili-player.component';
     VideoDetail,
   ]
 })
-export class VideoModule {}
+export class ContentsModule {}
