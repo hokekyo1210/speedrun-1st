@@ -8,7 +8,7 @@ import { VideoLinkService, VideoHost } from 'src/app/Service/video-link.service'
 })
 export class RootPlayer implements OnInit {
   @Input() bestVideoLink: string;
-  private url: URL | null;
+  private url: URL;
 
   constructor(
     private videoLinkService: VideoLinkService
@@ -32,8 +32,6 @@ export class RootPlayer implements OnInit {
   }
 
   getDefaultThumbnail() {
-    const url = this.videoLinkService.getDefaultThumbnailUrl(this.url);
-    console.log(url);
-    return url;
+    return this.videoLinkService.getDefaultThumbnailUrl(this.url);
   }
 }

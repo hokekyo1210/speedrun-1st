@@ -1,14 +1,16 @@
 <div fxLayout="row">
-  <div fxFlex="100" fxFlexFill class="main-column">
+  <div fxFlex="100" fxFlexFill class="main-column" fxLayoutGap="5px">
 
     <root-player bestVideoLink={{this.record.bestVideoLink}}></root-player>
 
     <video-detail-overview [record]="this.record"></video-detail-overview>
 
-    <button mat-raised-button (click)="goBack()">
-      <mat-icon>arrow_back_ios</mat-icon>
-      Back
-    </button>
+    <!-- <div>
+      <button mat-raised-button (click)="goBack()">
+        <mat-icon>arrow_back_ios</mat-icon>
+        Back
+      </button>
+    </div> -->
 
   </div>
 

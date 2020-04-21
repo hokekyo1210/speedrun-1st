@@ -1,0 +1,18 @@
+<ng-container *ngFor="let player of record.bestPlayers; index as i">
+    <div class="user-row">
+      <a href="https://www.speedrun.com/user/{{player.playerName}}" target="_blank">
+        <button mat-icon-button>
+          <img class="user-icon" src={{getUserIconUrl(i)}} onerror="this.src='./assets/image/user-icon/default.png';" >
+        </button>
+      </a>
+      <span class="player-name">
+        {{player.playerName}}
+      </span>
+    </div>
+</ng-container>
+<mat-divider></mat-divider>
+
+<div class="comment">
+  {{this.record.bestComment}}
+</div>
+

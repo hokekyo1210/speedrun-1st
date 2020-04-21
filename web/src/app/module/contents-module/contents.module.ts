@@ -11,6 +11,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatListModule } from "@angular/material/list";
 import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -27,12 +28,14 @@ import { HomeComponent } from './home/home.component';
 import { DialogVideo } from "./video-dialog/video-dialog.component";
 
 import { VideoCardComponent } from './home/video-card/video-card.component';
+
 import { VideoDetailOverview } from './video-detail/video-detail-overview/video-detail-overview';
+import { VideoDetailOvderviewHeader } from "./video-detail/video-detail-overview/video-detail-overview-hedder/video-detail-overview-header.component";
+import { VideoDetailOverviewMain } from './video-detail/video-detail-overview/video-detail-overview-main/video-detail-overview-main.component';
 import { VideoDetailInformation } from "./video-detail/video-detail-information/video-detail-information.component";
 import { VideoDetailInformationRunner } from "./video-detail/video-detail-information-runner/video-detail-information-runner.component";
 
 import { PlayerModule } from '../player-module/player.module';
-
 
 @NgModule({
   imports: [
@@ -46,6 +49,7 @@ import { PlayerModule } from '../player-module/player.module';
     MatTabsModule,
     MatListModule,
     MatSidenavModule,
+    MatExpansionModule,
 
     FormsModule,
     BrowserModule,
@@ -61,10 +65,14 @@ import { PlayerModule } from '../player-module/player.module';
 
     VideoDetail,
     VideoDetailOverview,
+    VideoDetailOvderviewHeader,
+    VideoDetailOverviewMain,
     VideoDetailInformation,
     VideoDetailInformationRunner,
 
     DialogVideo,
+
+
   ],
   providers: [
     VideoLinkService,

@@ -1,35 +1,8 @@
 .base {
   background-color: white;
-  margin-top: 10px;
-  padding: 10px;
 }
-
-.game-image {
+.header {
   width: 100%;
-  object-fit: contain;
-}
-
-.gameTitle {
-  padding-left: 10px;
-  padding-top: 20px;
-
-  font-size: 24px;
-  line-height: 28px;
-  display: flex;
-  align-items: center;
-}
-
-.category {
-  padding-left: 10px;
-  padding-top: 10px;
-  padding-bottom: 5px;
-
-  font-size: 18px;
-  line-height: 21px;
-  display: flex;
-  align-items: center;
-
-  color: #333333;
 }
 
 .comment {
@@ -38,4 +11,20 @@
 
   font-size: 14px;
   line-height: 21px;
+}
+// Disabledのときに、見た目を変化させない
+::ng-deep .mat-expansion-panel-header[aria-disabled=true] {
+  color: rgba(0,0,0,.87);
+}
+
+
+// 拡張ボタン周り
+.expand_button_div {
+  margin-top: -2px;
+  text-align: center;
+}
+.expand_button {
+  width: 100%;
+  background-color: rgba(255,255,255,1);
+  // border:  1px solid rgba(0,0,0,.5);
 }

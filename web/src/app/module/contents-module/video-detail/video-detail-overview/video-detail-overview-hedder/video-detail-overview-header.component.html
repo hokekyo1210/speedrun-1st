@@ -1,0 +1,26 @@
+<div fxLayout="row" class="base" fxLayoutGap="10px">
+  <div fxFlex="20%" fxFlexFill>
+    <div class="div-image">
+      <img
+      class="game-image"
+      src=""
+      onerror="this.src='./assets/image/no-image.png'"
+      >
+    </div>
+  </div>
+  <div fxFlex="80%" fxFlexFill>
+    <div class="gameTitle">
+      {{this.record.game.gameTitle}}
+    </div>
+    <div class="category">
+      {{this.record.categoryName}} - {{this.record.subcategoryName}} in {{this.record.bestTime|timer}}
+    </div>
+
+    <!-- 横線 -->
+    <mat-divider></mat-divider>
+
+    <div class="date">
+      {{this.record.bestDate | date:'yyyy/MM/dd hh:mm:ss'}}
+    </div>
+  </div>
+</div>

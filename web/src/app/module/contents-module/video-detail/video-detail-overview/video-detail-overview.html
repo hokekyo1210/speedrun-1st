@@ -1,25 +1,23 @@
-<div fxLayout="row" class="base" fxLayoutGap="10px">
-  <div fxFlex="20%" fxFlexFill class="contents">
-    <img
-    class="game-image"
-    src=""
-    onerror="this.src='./assets/image/no-image.png'"
-    >
-  </div>
-  <div fxFlex="80%" fxFlexFill>
-    <div class="gameTitle">
-      {{this.record.game.gameTitle}}
+<mat-accordion MatAccordionDisplayMode='flat'>
+  <mat-expansion-panel #overview>
+    <mat-expansion-panel-header collapsedHeight="100%" expandedHeight="100%">
+      <!-- ヘッダ -->
+      <video-detail-overview-header class="header" [record]="this.record"></video-detail-overview-header>
+    </mat-expansion-panel-header>
+
+    <!-- プレイヤ・コメント -->
+    <video-detail-overview-main [record]="this.record"></video-detail-overview-main>
+
+  </mat-expansion-panel>
+</mat-accordion>
+<!-- 拡張/ -->
+<!-- <div class="expand_button_div">
+  <button class="expand_button" mat-raised-button (click)="overview.toggle(); isOpened=!isOpened;">
+    <div *ngIf="!isOpened; else elseBlock">
+      <mat-icon >expand_more</mat-icon>
     </div>
-    <div class="category">
-      {{this.record.categoryName}} - {{this.record.subcategoryName}} in {{this.record.bestTime|timer}}
-    </div>
-
-    <mat-divider></mat-divider>
-
-    <div class="comment">
-      {{this.record.bestComment}}
-    </div>
-  </div>
-
-
-</div>
+    <ng-template #elseBlock>
+      <mat-icon *ngIf="isOpened">expand_less</mat-icon>
+    </ng-template>
+  </button>
+</div> -->

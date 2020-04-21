@@ -24,6 +24,7 @@
     "@angular/router": "~9.1.0",
     "@angular/youtube-player": "^9.2.0",
     "angular-twitch": "0.0.3",
+    "material": "^0.4.3",
     "ngx-youtube-player": "^7.1.1",
     "rxjs": "~6.5.4",
     "sprintf-js": "^1.1.2",
